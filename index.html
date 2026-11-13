@@ -2,10 +2,10 @@
 <html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOP Briefing Klien — Web App Pembukuan Sanggar Seni</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>SOP Briefing Klien — Web App Pembukuan Usaha</title>
   
-  <!-- Fonts & Tailwind CDN -->
+  <!-- Apple-grade Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,35 +16,29 @@
       theme: {
         extend: {
           colors: {
-            surface: {
-              canvas: '#F8FAFC',
+            apple: {
+              canvas: '#F5F5F7',
               card: '#FFFFFF',
-              elevated: '#FFFFFF',
-              subtle: '#F1F5F9',
-              border: '#E2E8F0',
-              borderStrong: '#CBD5E1',
-            },
-            ink: {
-              heading: '#0F172A',
-              body: '#334155',
-              muted: '#64748B',
-              faint: '#94A3B8',
-            },
-            accent: {
-              emerald: '#059669',
-              emeraldBg: '#ECFDF5',
-              emeraldBorder: '#A7F3D0',
-              amber: '#D97706',
-              amberBg: '#FFFBEB',
-              amberBorder: '#FDE68A',
-              rose: '#E11D48',
-              roseBg: '#FFF1F2',
-              roseBorder: '#FECDD3',
+              subtle: '#FBFBFD',
+              border: '#E5E5EA',
+              borderStrong: '#D1D1D6',
+              text: '#1D1D1F',
+              secondary: '#6E6E73',
+              tertiary: '#86868B',
+              blue: '#0071E3',
+              green: '#34C759',
+              amber: '#FF9500',
+              red: '#FF3B30',
             }
           },
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', '"SF Mono"', 'monospace'],
+          },
+          boxShadow: {
+            'bento': '0 2px 10px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.04)',
+            'bento-hover': '0 8px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06)',
+            'dock': '0 12px 36px -4px rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08)',
           }
         }
       }
@@ -52,567 +46,699 @@
   </script>
 
   <style>
-    /* Custom light scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #F8FAFC; }
-    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
-
-    .tab-active {
-      background: #0F172A !important;
-      color: #FFFFFF !important;
-      border-color: #0F172A !important;
-      box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.15);
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
     }
+    
+    body {
+      background-color: #F5F5F7;
+      color: #1D1D1F;
+    }
+
+    /* Apple-style spring press */
+    .pressable {
+      transition: transform 120ms cubic-bezier(0.2, 0, 0, 1), background-color 150ms ease;
+    }
+    .pressable:active {
+      transform: scale(0.97);
+    }
+
+    /* iOS Segmented Control Pill Style */
+    .segmented-item.active {
+      background-color: #FFFFFF;
+      color: #1D1D1F;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+      font-weight: 700;
+    }
+
+    /* Horizontal tab scroll with fade edges */
+    .tab-scroll-container {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      mask-image: linear-gradient(to right, black 88%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, black 88%, transparent 100%);
+    }
+    .tab-scroll-container::-webkit-scrollbar { display: none; }
   </style>
 </head>
-<body class="bg-surface-canvas text-ink-body font-sans min-h-screen selection:bg-emerald-100 selection:text-emerald-900 antialiased">
+<body class="bg-apple-canvas text-apple-text font-sans min-h-screen antialiased selection:bg-apple-blue/15 selection:text-apple-blue pb-36">
 
-  <!-- TOP HEADER & DOCK -->
-  <header class="border-b border-surface-border bg-white/90 sticky top-0 z-50 backdrop-blur-md">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+  <!-- ========================================================
+       TOP TRANSLUCENT APPLE BAR
+       ======================================================== -->
+  <header class="sticky top-0 z-40 bg-[#F5F5F7]/85 backdrop-blur-2xl border-b border-apple-border/80">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
       
-      <!-- Brand & Project Meta -->
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white font-mono font-bold text-xs tracking-wider">
+      <!-- Brand & Project Meta (No Truncation) -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-apple-text flex items-center justify-center text-white font-mono font-bold text-xs shadow-sm flex-shrink-0">
           SOP
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-sm font-extrabold text-ink-heading tracking-tight">Developer Briefing Playbook</h1>
-            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder">
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-sm sm:text-base font-extrabold text-apple-text tracking-tight">Playbook Wawancara Klien</h1>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-100/70 text-emerald-800 border border-emerald-200">
               Sprint 6 Hari
             </span>
           </div>
-          <p class="text-xs text-ink-muted">Sanggar Seni Sukabumi • LocalStorage Web App • Budget Rp 1.5M</p>
+          <p class="text-[11px] text-apple-secondary">Klien: Pemilik Usaha / Akuntan • Web App LocalStorage • Rp 1.5M</p>
         </div>
       </div>
 
-      <!-- TIMER COMPACT WIDGET (MINIMALIST) -->
-      <div class="flex items-center gap-2 bg-surface-subtle border border-surface-border px-3 py-1.5 rounded-lg font-mono text-xs">
-        <svg class="w-3.5 h-3.5 text-ink-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <!-- DESKTOP TIMER COMPACT DISPLAY (Hidden on Mobile, Moved to Thumb Dock) -->
+      <div class="hidden sm:flex items-center gap-2 bg-white/90 border border-apple-border px-3 py-1.5 rounded-full shadow-sm font-mono text-xs">
+        <svg class="w-3.5 h-3.5 text-apple-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="10"/>
           <polyline points="12 6 12 12 16 14"/>
         </svg>
-        <span class="text-ink-muted">Interview:</span>
-        <span id="timerDisplay" class="font-bold text-ink-heading text-sm w-12 text-center tracking-tight">45:00</span>
+        <span class="text-apple-secondary">Interview:</span>
+        <span id="timerDisplayHeader" class="font-bold text-apple-text text-sm w-12 text-center tracking-tight">45:00</span>
         
-        <button id="timerToggleBtn" onclick="toggleTimer()" class="px-2.5 py-1 rounded bg-white hover:bg-slate-50 border border-surface-border text-ink-heading font-sans text-xs font-semibold shadow-sm transition">
-          Mulai
+        <button onclick="toggleTimer()" class="pressable ml-1 px-3 py-1 rounded-full bg-apple-text text-white text-xs font-sans font-semibold">
+          <span class="timerToggleLabel">Mulai</span>
         </button>
-        <button onclick="resetTimer()" class="px-2 py-1 rounded hover:bg-slate-200/60 text-ink-muted font-sans text-xs transition" title="Reset 45 Menit">
-          Reset
+        <button onclick="resetTimer()" class="pressable px-2 py-1 rounded-full text-apple-secondary text-xs font-sans hover:text-apple-text" title="Reset">
+          ↺
         </button>
       </div>
 
     </div>
   </header>
 
-  <!-- MAIN CONTAINER -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+  <!-- ========================================================
+       MAIN BENTO CONTAINER
+       ======================================================== -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-5 space-y-6">
 
-    <!-- HERO CONTEXT CARD (LIGHT EDITORIAL) -->
-    <section class="bg-white border border-surface-border rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
-      <div class="space-y-4 max-w-3xl">
-        
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-50 border border-accent-amberBorder text-accent-amber text-xs font-mono font-semibold">
-          <span class="w-1.5 h-1.5 rounded-full bg-accent-amber"></span>
-          <span>Pelajaran Klien 1: Target 3 hari molor jadi 6 hari akibat revisi labil</span>
-        </div>
-        
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-ink-heading leading-tight tracking-tight">
-          Panduan Kunci Kebutuhan Klien 80% di Awal &amp; Pengendalian Revisi
-        </h2>
-        
-        <p class="text-sm sm:text-base text-ink-body leading-relaxed">
-          Klien kedua ini adalah pemilik sanggar seni (tempat les beatbox, tari, vokal). Karena ia adalah referensi langsung dari klien pertama yang revisinya tanpa batas, batasan revisi dikemas sebagai <strong class="text-ink-heading underline decoration-accent-emerald decoration-2">Jaminan Tepat Waktu 6 Hari Kerja</strong> agar terhindar dari gesekan atau kesan kaku.
-        </p>
-
-        <!-- Metrics Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs font-mono">
-          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
-            <span class="text-ink-muted block text-[11px]">Durasi Interview</span>
-            <span class="text-ink-heading font-bold text-sm">30 – 45 Menit</span>
+    <!-- BENTO GRID HERO & OVERVIEW -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      
+      <!-- Hero Bento Tile -->
+      <div class="md:col-span-2 bg-apple-card border border-apple-border rounded-3xl p-6 sm:p-7 shadow-bento flex flex-col justify-between space-y-4">
+        <div class="space-y-2.5">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200/80 text-amber-800 text-[11px] font-mono font-medium">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+            <span>Evaluasi Klien 1: Target 3 hari molor 6 hari karena revisi labil</span>
           </div>
-          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
-            <span class="text-ink-muted block text-[11px]">Batas Waktu</span>
-            <span class="text-ink-heading font-bold text-sm">Maks. 6 Hari</span>
-          </div>
-          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
-            <span class="text-ink-muted block text-[11px]">Sesi Review Resmi</span>
-            <span class="text-accent-emerald font-bold text-sm">2x (H4 &amp; H5)</span>
-          </div>
-          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
-            <span class="text-ink-muted block text-[11px]">Nilai Proyek</span>
-            <span class="text-ink-heading font-bold text-sm">Rp 1.500.000</span>
-          </div>
+          
+          <h2 class="text-xl sm:text-2xl font-extrabold text-apple-text tracking-tight leading-snug">
+            Kunci 80% Kebutuhan di Awal &amp; Pengendalian Revisi
+          </h2>
+          
+          <p class="text-xs sm:text-sm text-apple-secondary leading-relaxed">
+            Klien kedua ini adalah <strong class="text-apple-text font-semibold">pemilik usaha / akuntan bisnis</strong>. Karena proyek ini berasal dari rekomendasi klien pertama (yang kemarin revisinya tanpa batas), kita kunci batasan pengerjaan sebagai <strong class="text-apple-text font-semibold underline decoration-apple-blue decoration-2">Jaminan Tepat Waktu 6 Hari Kerja</strong> agar tidak terkesan kaku atau defensif.
+          </p>
         </div>
 
+        <div class="pt-3 border-t border-apple-border/70 flex items-center justify-between text-[11px] font-mono text-apple-secondary">
+          <span>Formula: Wawancara 45m &rarr; 2x Review Resmi &rarr; Handover</span>
+          <span class="text-emerald-700 font-bold font-sans">Zero Drama</span>
+        </div>
       </div>
+
+      <!-- Bento Metric Cluster Tile -->
+      <div class="grid grid-cols-2 md:grid-cols-1 gap-3">
+        <div class="bg-apple-card border border-apple-border rounded-2xl p-4 shadow-bento flex flex-col justify-between">
+          <span class="text-[11px] font-mono text-apple-tertiary uppercase">Durasi Interview</span>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-extrabold text-apple-text">30–45</span>
+            <span class="text-xs font-mono text-apple-secondary">Menit</span>
+          </div>
+        </div>
+
+        <div class="bg-apple-card border border-apple-border rounded-2xl p-4 shadow-bento flex flex-col justify-between">
+          <span class="text-[11px] font-mono text-apple-tertiary uppercase">Target Selesai</span>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-xl font-extrabold text-apple-text">6 Hari</span>
+            <span class="text-xs font-mono text-emerald-600 font-bold">Maksimal</span>
+          </div>
+        </div>
+
+        <div class="bg-apple-card border border-apple-border rounded-2xl p-4 shadow-bento flex flex-col justify-between col-span-2 md:col-span-1">
+          <span class="text-[11px] font-mono text-apple-tertiary uppercase">Sesi Review Resmi</span>
+          <div class="flex items-baseline justify-between mt-1">
+            <span class="text-base font-bold text-apple-blue">2x (Hari 4 &amp; 5)</span>
+            <span class="text-[11px] font-mono text-apple-secondary">Fee Rp 1.5M</span>
+          </div>
+        </div>
+      </div>
+
     </section>
 
-    <!-- NAVIGATION TABS (REFINED PILL DOCK) -->
-    <nav class="flex flex-wrap gap-2 border-b border-surface-border pb-3 text-xs sm:text-sm font-medium">
-      <button onclick="switchTab('tab-interview')" id="btn-tab-interview" class="tab-btn tab-active px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
-        <span class="font-mono text-xs opacity-60">01</span>
-        <span>Protokol Interview 45m</span>
-      </button>
-      <button onclick="switchTab('tab-scripts')" id="btn-tab-scripts" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
-        <span class="font-mono text-xs opacity-60">02</span>
-        <span>Skrip Anti-Tersinggung</span>
-      </button>
-      <button onclick="switchTab('tab-scope')" id="btn-tab-scope" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
-        <span class="font-mono text-xs opacity-60">03</span>
-        <span>Revisi vs Fitur Baru</span>
-      </button>
-      <button onclick="switchTab('tab-bundling')" id="btn-tab-bundling" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
-        <span class="font-mono text-xs opacity-60">04</span>
-        <span>Solusi Kasus Bundling</span>
-      </button>
-      <button onclick="switchTab('tab-timeline')" id="btn-tab-timeline" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
-        <span class="font-mono text-xs opacity-60">05</span>
-        <span>Sprint Roadmap 6 Hari</span>
-      </button>
-    </nav>
+    <!-- ========================================================
+         APPLE SEGMENTED CONTROLLER (SWIPABLE ON MOBILE)
+         ======================================================== -->
+    <div class="tab-scroll-container pb-1">
+      <div class="bg-[#E5E5EA]/80 p-1.5 rounded-2xl inline-flex gap-1 border border-apple-border/50 min-w-full sm:min-w-0">
+        <button onclick="switchTab('tab-interview')" id="btn-tab-interview" class="segmented-item active pressable flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-apple-secondary transition flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[44px]">
+          <span class="font-mono text-[11px] opacity-60">01</span>
+          <span>Interview 45m</span>
+        </button>
+        <button onclick="switchTab('tab-scripts')" id="btn-tab-scripts" class="segmented-item pressable flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-apple-secondary transition flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[44px]">
+          <span class="font-mono text-[11px] opacity-60">02</span>
+          <span>Skrip Komunikasi</span>
+        </button>
+        <button onclick="switchTab('tab-scope')" id="btn-tab-scope" class="segmented-item pressable flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-apple-secondary transition flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[44px]">
+          <span class="font-mono text-[11px] opacity-60">03</span>
+          <span>Revisi vs Fitur</span>
+        </button>
+        <button onclick="switchTab('tab-bundling')" id="btn-tab-bundling" class="segmented-item pressable flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-apple-secondary transition flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[44px]">
+          <span class="font-mono text-[11px] opacity-60">04</span>
+          <span>Solusi Bundling</span>
+        </button>
+        <button onclick="switchTab('tab-timeline')" id="btn-tab-timeline" class="segmented-item pressable flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium text-apple-secondary transition flex items-center justify-center gap-1.5 whitespace-nowrap min-h-[44px]">
+          <span class="font-mono text-[11px] opacity-60">05</span>
+          <span>Roadmap 6 Hari</span>
+        </button>
+      </div>
+    </div>
 
-    <!-- TAB 1: PROTOKOL INTERVIEW 45 MENIT -->
-    <div id="tab-interview" class="tab-content space-y-6">
-      <div class="flex items-center justify-between">
+
+    <!-- ========================================================
+         TAB 01: BENTO CHECKLIST WAWANCARA (TOUCH-FRIENDLY >44PX)
+         ======================================================== -->
+    <div id="tab-interview" class="tab-content space-y-4">
+      
+      <div class="flex items-center justify-between px-1">
         <div>
-          <h3 class="text-lg font-bold text-ink-heading tracking-tight">Alur Wawancara 3 Blok (30–45 Menit)</h3>
-          <p class="text-xs text-ink-muted">Centang poin yang telah ditanyakan. Progres checklist otomatis tersimpan di peramban.</p>
+          <h3 class="text-base font-bold text-apple-text tracking-tight">Protokol Wawancara 3 Blok (45 Menit)</h3>
+          <p class="text-xs text-apple-secondary">Ketuk untuk mencentang. Status tersimpan otomatis di browser.</p>
         </div>
-        <button onclick="resetChecklist()" class="text-xs text-ink-muted hover:text-ink-heading underline">
+        <button onclick="resetChecklist()" class="pressable min-h-[44px] px-3 py-2 flex items-center text-xs font-mono text-apple-secondary hover:text-apple-text underline">
           Reset Centang
         </button>
       </div>
 
-      <!-- BLOK 1 -->
-      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
-        <div class="flex items-center justify-between border-b border-surface-border pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="px-2.5 py-0.5 rounded font-mono text-xs font-bold bg-slate-100 text-ink-heading border border-slate-200">
-              Blok 1 (00:00 - 15:00)
-            </span>
-            <h4 class="font-bold text-ink-heading text-sm sm:text-base">Bedah Alur Riil Kas &amp; Pendaftaran Siswa</h4>
+      <!-- Bento Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- BLOK 1 BENTO CARD -->
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 sm:p-6 shadow-bento flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-apple-border pb-2.5">
+              <span class="px-2.5 py-0.5 rounded-md font-mono text-[10px] font-bold bg-slate-100 text-apple-text border border-slate-200">
+                BLOK 1 (00:00 - 15:00)
+              </span>
+              <span class="text-xs font-mono text-apple-secondary">15 Menit</span>
+            </div>
+            
+            <h4 class="font-bold text-sm text-apple-text leading-snug">
+              Alur Kas Masuk &amp; Transaksi Harian
+            </h4>
+            
+            <p class="text-xs text-apple-secondary leading-relaxed">
+              Fokus: Bongkar alur penerimaan uang fisik vs transfer, pencatat transaksi kasir, dan pos biaya operasional.
+            </p>
           </div>
-          <span class="text-xs font-mono text-ink-muted">15 Menit</span>
-        </div>
 
-        <div class="space-y-3">
-          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
-            <input type="checkbox" id="chk-1" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
-            <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-bold text-ink-heading">1. Alur Pendaftaran Siswa Baru:</span>
-              <p class="text-ink-body text-xs leading-relaxed">Siapa penerima uang fisik/transfer? Apakah langsung bayar pendaftaran + SPP bulan pertama, atau ada skema cicilan/DP? Apakah masuk laci kasir atau rekening pemilik?</p>
-            </div>
-          </label>
+          <div class="space-y-2.5 pt-2">
+            <label class="pressable flex items-start gap-3.5 p-3.5 rounded-2xl bg-apple-subtle hover:bg-slate-100 border border-apple-border cursor-pointer select-none min-h-[52px]">
+              <input type="checkbox" id="chk-1" onchange="saveChecklist()" class="mt-1 w-5 h-5 rounded-md text-apple-text border-apple-borderStrong focus:ring-0">
+              <div class="text-xs space-y-0.5">
+                <span class="font-bold text-apple-text block text-[13px]">1. Alur Transaksi Masuk</span>
+                <span class="text-apple-secondary block text-xs leading-relaxed">Siapa penerima uang? Tunai di laci atau transfer? Apakah ada skema termin / DP?</span>
+              </div>
+            </label>
 
-          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
-            <input type="checkbox" id="chk-2" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
-            <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-bold text-ink-heading">2. Identitas Kelas &amp; Kategori Les:</span>
-              <p class="text-ink-body text-xs leading-relaxed">Daftar kelas di sanggar: Vokal, Tari Tradisional/Modern, Beatbox, Musik, dll. Apakah tarif tiap les sama rata atau memiliki pengelompokan biaya tersendiri?</p>
-            </div>
-          </label>
+            <label class="pressable flex items-start gap-3.5 p-3.5 rounded-2xl bg-apple-subtle hover:bg-slate-100 border border-apple-border cursor-pointer select-none min-h-[52px]">
+              <input type="checkbox" id="chk-2" onchange="saveChecklist()" class="mt-1 w-5 h-5 rounded-md text-apple-text border-apple-borderStrong focus:ring-0">
+              <div class="text-xs space-y-0.5">
+                <span class="font-bold text-apple-text block text-[13px]">2. Kategori Produk &amp; Layanan</span>
+                <span class="text-apple-secondary block text-xs leading-relaxed">Daftar jasa/produk usaha: apakah tarif tetap, berjenjang, atau ada paket tertentu?</span>
+              </div>
+            </label>
 
-          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
-            <input type="checkbox" id="chk-3" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
-            <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-bold text-ink-heading">3. Jenis Pengeluaran Operasional Harian:</span>
-              <p class="text-ink-body text-xs leading-relaxed">Pengeluaran rutin sanggar: honor instruktur per pertemuan/bulanan, konsumsi/air galon, sewa sound system, sewa gedung, dan perlengkapan pentas.</p>
-            </div>
-          </label>
-        </div>
-      </div>
-
-      <!-- BLOK 2 -->
-      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
-        <div class="flex items-center justify-between border-b border-surface-border pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="px-2.5 py-0.5 rounded font-mono text-xs font-bold bg-amber-50 text-accent-amber border border-accent-amberBorder">
-              Blok 2 (15:00 - 30:00)
-            </span>
-            <h4 class="font-bold text-ink-heading text-sm sm:text-base">Penanganan Pola Bundling &amp; Kasus Piutang / Nunggak</h4>
+            <label class="pressable flex items-start gap-3.5 p-3.5 rounded-2xl bg-apple-subtle hover:bg-slate-100 border border-apple-border cursor-pointer select-none min-h-[52px]">
+              <input type="checkbox" id="chk-3" onchange="saveChecklist()" class="mt-1 w-5 h-5 rounded-md text-apple-text border-apple-borderStrong focus:ring-0">
+              <div class="text-xs space-y-0.5">
+                <span class="font-bold text-apple-text block text-[13px]">3. Pos Pengeluaran Rutin</span>
+                <span class="text-apple-secondary block text-xs leading-relaxed">Gaji staf/honor harian, listrik/air, sewa tempat, operasional bahan baku.</span>
+              </div>
+            </label>
           </div>
-          <span class="text-xs font-mono text-ink-muted">15 Menit</span>
         </div>
 
-        <div class="space-y-3">
-          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
-            <input type="checkbox" id="chk-4" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
-            <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-bold text-ink-heading">4. Konfirmasi Kebiasaan Input Bundling:</span>
-              <p class="text-ink-body text-xs leading-relaxed">Klarifikasi alasan pencatatan multi-nama (misal 2 anak didaftarkan sekaligus). Jelaskan bahwa sistem baru tetap mengizinkan input sekaligus tanpa memaksa klien mengetik ulang.</p>
+        <!-- BLOK 2 BENTO CARD -->
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 sm:p-6 shadow-bento flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-apple-border pb-2.5">
+              <span class="px-2.5 py-0.5 rounded-md font-mono text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                BLOK 2 (15:00 - 30:00)
+              </span>
+              <span class="text-xs font-mono text-apple-secondary">15 Menit</span>
             </div>
-          </label>
-
-          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
-            <input type="checkbox" id="chk-5" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
-            <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-bold text-ink-heading">5. Penanganan Siswa Nunggak / Piutang SPP:</span>
-              <p class="text-ink-body text-xs leading-relaxed">Bagaimana cara menandai pembayaran parsial atau janji bayar? Terapkan status biner sederhana: "Lunas" vs "Belum Lunas" agar daftar piutang terakumulasi otomatis.</p>
-            </div>
-          </label>
-        </div>
-      </div>
-
-      <!-- BLOK 3 -->
-      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
-        <div class="flex items-center justify-between border-b border-surface-border pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="px-2.5 py-0.5 rounded font-mono text-xs font-bold bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder">
-              Blok 3 (30:00 - 45:00)
-            </span>
-            <h4 class="font-bold text-ink-heading text-sm sm:text-base">Penguncian Output Rekap &amp; Pengambilan Data Riil</h4>
+            
+            <h4 class="font-bold text-sm text-apple-text leading-snug">
+              Nota Gabungan (Bundling) &amp; Piutang
+            </h4>
+            
+            <p class="text-xs text-apple-secondary leading-relaxed">
+              Fokus: Mengapa klien mencatat gabungan dalam 1 baris, serta bagaimana pencatatan tempo/tunggakan pelanggan.
+            </p>
           </div>
-          <span class="text-xs font-mono text-ink-muted">15 Menit</span>
+
+          <div class="space-y-2.5 pt-2">
+            <label class="pressable flex items-start gap-3.5 p-3.5 rounded-2xl bg-apple-subtle hover:bg-slate-100 border border-apple-border cursor-pointer select-none min-h-[52px]">
+              <input type="checkbox" id="chk-4" onchange="saveChecklist()" class="mt-1 w-5 h-5 rounded-md text-apple-text border-apple-borderStrong focus:ring-0">
+              <div class="text-xs space-y-0.5">
+                <span class="font-bold text-apple-text block text-[13px]">4. Pola Nota Bundling</span>
+                <span class="text-apple-secondary block text-xs leading-relaxed">Klarifikasi alasan gabung transaksi (misal: 2 orang bayar bareng). Pastikan sistem baru tetap fleksibel.</span>
+              </div>
+            </label>
+
+            <label class="pressable flex items-start gap-3.5 p-3.5 rounded-2xl bg-apple-subtle hover:bg-slate-100 border border-apple-border cursor-pointer select-none min-h-[52px]">
+              <input type="checkbox" id="chk-5" onchange="saveChecklist()" class="mt-1 w-5 h-5 rounded-md text-apple-text border-apple-borderStrong focus:ring-0">
+              <div class="text-xs space-y-0.5">
+                <span class="font-bold text-apple-text block text-[13px]">5. Pencatatan Piutang / Tempo</span>
+                <span class="text-apple-secondary block text-xs leading-relaxed">Bagaimana menandai bayar separuh / jatuh tempo? Buat status biner: Lunas vs Belum Lunas.</span>
+              </div>
+            </label>
+          </div>
         </div>
 
-        <div class="space-y-3">
-          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
-            <input type="checkbox" id="chk-6" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
-            <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-bold text-ink-heading">6. Indikator Utama Evaluasi Bulanan:</span>
-              <p class="text-ink-body text-xs leading-relaxed">Tiga metrik wajib di dashboard: Total Kas Bersih, Total Pemasukan SPP, dan Akumulasi Tunggakan Siswa.</p>
+        <!-- BLOK 3 BENTO CARD -->
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 sm:p-6 shadow-bento flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-apple-border pb-2.5">
+              <span class="px-2.5 py-0.5 rounded-md font-mono text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                BLOK 3 (30:00 - 45:00)
+              </span>
+              <span class="text-xs font-mono text-apple-secondary">15 Menit</span>
             </div>
-          </label>
+            
+            <h4 class="font-bold text-sm text-apple-text leading-snug">
+              Laporan Akhir &amp; 10 Baris Data Riil
+            </h4>
+            
+            <p class="text-xs text-apple-secondary leading-relaxed">
+              Fokus: Mengunci 3 metrik yang wajib dilihat owner setiap evaluasi, dan mewajibkan penyerahan 10 baris data Excel.
+            </p>
+          </div>
 
-          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
-            <input type="checkbox" id="chk-7" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
-            <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-bold text-accent-emerald">7. [SYARAT MUTLAK] Minta 10 Baris Contoh Excel Terakhir:</span>
-              <p class="text-ink-body text-xs leading-relaxed">Wajib mendapatkan file/foto 10 baris transaksi nyata yang biasa dicatat sebelum memulai penulisan kode.</p>
-            </div>
-          </label>
+          <div class="space-y-2.5 pt-2">
+            <label class="pressable flex items-start gap-3.5 p-3.5 rounded-2xl bg-apple-subtle hover:bg-slate-100 border border-apple-border cursor-pointer select-none min-h-[52px]">
+              <input type="checkbox" id="chk-6" onchange="saveChecklist()" class="mt-1 w-5 h-5 rounded-md text-apple-text border-apple-borderStrong focus:ring-0">
+              <div class="text-xs space-y-0.5">
+                <span class="font-bold text-apple-text block text-[13px]">6. 3 Metrik Dashboard Utama</span>
+                <span class="text-apple-secondary block text-xs leading-relaxed">Tiga angka wajib: Total Kas Masuk, Total Kas Keluar Operasional, dan Sisa Piutang Aktif.</span>
+              </div>
+            </label>
+
+            <label class="pressable flex items-start gap-3.5 p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200 cursor-pointer select-none min-h-[52px]">
+              <input type="checkbox" id="chk-7" onchange="saveChecklist()" class="mt-1 w-5 h-5 rounded-md text-emerald-600 border-emerald-300 focus:ring-0">
+              <div class="text-xs space-y-0.5">
+                <span class="font-bold text-emerald-900 block text-[13px]">[MUTLAK] 10 Contoh Transaksi</span>
+                <span class="text-emerald-700 block text-xs leading-relaxed">Wajib minta foto/file 10 baris Excel riil terakhir sebelum mulai koding!</span>
+              </div>
+            </label>
+          </div>
         </div>
+
       </div>
     </div>
 
-    <!-- TAB 2: SKRIP KOMUNIKASI (KATA-PER-KATA) -->
-    <div id="tab-scripts" class="tab-content hidden space-y-6">
-      <div>
-        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Naskah Komunikasi Siap Pakai</h3>
-        <p class="text-xs text-ink-muted">Gunakan tombol salin untuk mengirim via WhatsApp atau dibacakan saat pertemuan.</p>
+
+    <!-- ========================================================
+         TAB 02: SKRIP KOMUNIKASI (ONE-TOUCH COPY)
+         ======================================================== -->
+    <div id="tab-scripts" class="tab-content hidden space-y-4">
+      
+      <div class="px-1">
+        <h3 class="text-base font-bold text-apple-text tracking-tight">Naskah Komunikasi Profesional (Bento Style)</h3>
+        <p class="text-xs text-apple-secondary">Ketuk tombol salin untuk mengirim via WhatsApp atau dibacakan saat pertemuan.</p>
       </div>
 
-      <!-- SCRIPT 1 -->
-      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-3 shadow-sm">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-slate-900"></span>
-            <span class="font-mono text-xs font-bold text-ink-heading uppercase tracking-wide">1. Kunci Batasan Revisi (Jaminan Tepat Waktu)</span>
+      <div class="space-y-4">
+        
+        <!-- SCRIPT 1 -->
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 sm:p-6 shadow-bento space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-apple-text"></span>
+              <span class="font-mono text-xs font-bold text-apple-text uppercase tracking-wide">1. Kunci Batasan Revisi (Jaminan Tepat Waktu)</span>
+            </div>
+            <button onclick="copyScript('script-1', this)" class="pressable min-h-[44px] px-4 py-2 rounded-full bg-apple-subtle hover:bg-slate-200 border border-apple-border text-xs text-apple-text font-bold flex items-center gap-1.5 shadow-sm">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>Salin</span>
+            </button>
           </div>
-          <button onclick="copyScript('script-1', this)" class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-slate-200 border border-surface-border text-xs text-ink-heading font-medium transition flex items-center gap-1.5 shadow-sm">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-            </svg>
-            <span>Salin Naskah</span>
-          </button>
-        </div>
-        <p class="text-xs text-ink-muted">Sampaikan saat penutupan sesi interview untuk menetapkan ekspektasi:</p>
-        <div id="script-1" class="bg-surface-subtle p-4 rounded-xl font-mono text-xs text-ink-body leading-relaxed border border-surface-border">
+          <p class="text-xs text-apple-secondary">Gunakan di akhir sesi wawancara untuk menetapkan ekspektasi alur kerja:</p>
+          <div id="script-1" class="bg-apple-subtle p-4 sm:p-5 rounded-2xl font-mono text-xs text-apple-text leading-relaxed border border-apple-border select-all">
 "Kang/Teh, belajar dari sistem yang kita bangun kemarin di tempat [Nama Klien 1], kemarin sempat ada waktu yang agak molor karena kita ubah-ubah alur di tengah jalan sebelum aplikasinya sempat diuji coba menyeluruh.
 
-Nah, khusus buat sanggar Akang/Teteh, kita pengen sistem ini beneran beres rapi dan bisa langsung dipakai operasional dalam 6 hari kerja.
+Nah, khusus buat usaha Akang/Teteh, kita pengen sistem ini beneran beres rapi dan bisa langsung dipakai operasional dalam 6 hari kerja.
 
 Biar target 6 hari ini kekejar dan hasilnya matang, alur pengerjaan kita bagi jadi 2 kali sesi review resmi ya:
-1. Review Tengah (Hari ke-4): Kita coba alur input kas & les di HP. Akang/Teteh bisa minta penyesuaian tampilan dan kenyamanan klik tombol.
+1. Review Tengah (Hari ke-4): Kita coba alur input kas di HP. Akang/Teteh bisa minta penyesuaian tampilan dan kenyamanan klik tombol.
 2. Review Akhir (Hari ke-5): Penyesuaian final sebelum serah terima resmi di Hari ke-6.
 
 Jadi di luar 2 sesi review ini, kita bakal fokus full coding & polishing biar aplikasinya enteng, gak ada bug, dan datanya aman tersimpan."
-        </div>
-      </div>
-
-      <!-- SCRIPT 2 -->
-      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-3 shadow-sm">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-accent-amber"></span>
-            <span class="font-mono text-xs font-bold text-ink-heading uppercase tracking-wide">2. Memfasilitasi Pola Input "Bundling"</span>
           </div>
-          <button onclick="copyScript('script-2', this)" class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-slate-200 border border-surface-border text-xs text-ink-heading font-medium transition flex items-center gap-1.5 shadow-sm">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-            </svg>
-            <span>Salin Naskah</span>
-          </button>
         </div>
-        <p class="text-xs text-ink-muted">Sampaikan saat klien menjelaskan pencatatan gabungan dua siswa:</p>
-        <div id="script-2" class="bg-surface-subtle p-4 rounded-xl font-mono text-xs text-ink-body leading-relaxed border border-surface-border">
-"Paham banget Kang! Kebiasaan Akang gabung 2 anak dalam 1 baris di Excel itu masuk akal banget karena biar gak capek ngetik ulang dua kali dan tabelnya gak kepanjangan.
 
-Tenang aja, di aplikasi baru ini kebiasaan praktis Akang tetap kita fasilitasi! Nanti di formulirnya Akang bisa ketik nama anaknya sekaligus (misal: 'Rizky & Fajar'). 
-
-Di tabel rekap harian Akang tetap muncul ringkas 1 baris kayak biasa. Tapi di sistem belakang layar, aplikasi bakal pintar bantu catat bahwa ada 2 kepala di kelas itu. Jadi pas Akang mau hitung honor pelatih tari/vokal per anak, datanya langsung pas tanpa harus ngitung manual lagi."
-        </div>
-      </div>
-
-      <!-- SCRIPT 3 -->
-      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-3 shadow-sm">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-accent-rose"></span>
-            <span class="font-mono text-xs font-bold text-ink-heading uppercase tracking-wide">3. Menolak Penambahan Fitur di Tengah Jalan (Fase 2)</span>
+        <!-- SCRIPT 2 -->
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 sm:p-6 shadow-bento space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              <span class="font-mono text-xs font-bold text-apple-text uppercase tracking-wide">2. Memfasilitasi Pola Input Nota Bundling</span>
+            </div>
+            <button onclick="copyScript('script-2', this)" class="pressable min-h-[44px] px-4 py-2 rounded-full bg-apple-subtle hover:bg-slate-200 border border-apple-border text-xs text-apple-text font-bold flex items-center gap-1.5 shadow-sm">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>Salin</span>
+            </button>
           </div>
-          <button onclick="copyScript('script-3', this)" class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-slate-200 border border-surface-border text-xs text-ink-heading font-medium transition flex items-center gap-1.5 shadow-sm">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-            </svg>
-            <span>Salin Naskah</span>
-          </button>
-        </div>
-        <p class="text-xs text-ink-muted">Gunakan jika di tengah pengerjaan muncul permintaan fitur baru di luar lingkup:</p>
-        <div id="script-3" class="bg-surface-subtle p-4 rounded-xl font-mono text-xs text-ink-body leading-relaxed border border-surface-border">
-"Wah idenya keren banget Kang, fitur [sebut fitur yang diminta, misal: kirim WhatsApp otomatis / login guru] itu memang bakal ngebantu banget ke depannya!
+          <p class="text-xs text-apple-secondary">Sampaikan saat klien menjelaskan alasan suka menggabung transaksi dalam 1 catatan:</p>
+          <div id="script-2" class="bg-apple-subtle p-4 sm:p-5 rounded-2xl font-mono text-xs text-apple-text leading-relaxed border border-apple-border select-all">
+"Paham banget Kang! Kebiasaan Akang gabung transaksi dalam 1 baris di Excel itu masuk akal banget biar gak capek ngetik ulang dua kali dan tabel rekapnya gak kepanjangan.
 
-Biar target launching 6 hari ini gak meleset dan sistem pembukuan utama sanggar ini jalan stabil dulu, usul saya fitur keren ini kita simpan jadi paket pengembangan Fase 2 ya Kang.
+Tenang aja, di aplikasi baru ini kebiasaan praktis Akang tetap kita fasilitasi! Nanti di formulirnya Akang bisa ketik rinciannya sekaligus (misal: 'Paket Usaha A + Biaya Pengantaran'). 
+
+Di tabel rekap harian Akang tetap muncul ringkas 1 baris kayak biasa. Tapi di sistem belakang layar, aplikasi bakal pintar bantu catat detail kuantitas itemnya. Jadi pas Akang evaluasi akhir bulan, datanya langsung klop tanpa harus ngitung ulang manual lagi."
+          </div>
+        </div>
+
+        <!-- SCRIPT 3 -->
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 sm:p-6 shadow-bento space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+              <span class="font-mono text-xs font-bold text-apple-text uppercase tracking-wide">3. Menolak Permintaan Fitur di Tengah Jalan (Fase 2)</span>
+            </div>
+            <button onclick="copyScript('script-3', this)" class="pressable min-h-[44px] px-4 py-2 rounded-full bg-apple-subtle hover:bg-slate-200 border border-apple-border text-xs text-apple-text font-bold flex items-center gap-1.5 shadow-sm">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>Salin</span>
+            </button>
+          </div>
+          <p class="text-xs text-apple-secondary">Gunakan jika di tengah pengerjaan muncul permintaan penambahan modul baru di luar scope:</p>
+          <div id="script-3" class="bg-apple-subtle p-4 sm:p-5 rounded-2xl font-mono text-xs text-apple-text leading-relaxed border border-apple-border select-all">
+"Wah idenya bagus banget Kang, fitur [sebut fitur yang diminta, misal: kirim nota WhatsApp otomatis / login staf bertingkat] itu memang bakal ngebantu banget ke depannya!
+
+Biar target launching 6 hari ini gak meleset dan sistem pembukuan utama usaha Akang jalan stabil dulu, usul saya fitur keren ini kita simpan jadi paket pengembangan Fase 2 ya Kang.
 
 Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita bisa duduk bareng lagi buat nambahin fitur itu dengan modul khusus."
+          </div>
         </div>
+
       </div>
     </div>
 
-    <!-- TAB 3: REVISI VS FITUR BARU -->
-    <div id="tab-scope" class="tab-content hidden space-y-6">
-      <div>
-        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Matriks Ruang Lingkup: Hak Revisi vs Fitur Baru</h3>
-        <p class="text-xs text-ink-muted">Pemisahan tegas untuk mencegah over-servicing dan memastikan target 6 hari tercapai.</p>
+
+    <!-- ========================================================
+         TAB 03: REVISI VS FITUR BARU (BENTO COMPARISON)
+         ======================================================== -->
+    <div id="tab-scope" class="tab-content hidden space-y-4">
+      
+      <div class="px-1">
+        <h3 class="text-base font-bold text-apple-text tracking-tight">Matriks Ruang Lingkup: Hak Revisi vs Fitur Baru</h3>
+        <p class="text-xs text-apple-secondary">Pemisahan jelas untuk mencegah over-servicing dan menjaga kejelasan batas kerja.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- REVISI GRATIS -->
-        <div class="bg-white border-2 border-emerald-500/40 rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
-          <div class="flex items-center gap-2">
-            <span class="w-5 h-5 rounded-full bg-emerald-100 text-accent-emerald flex items-center justify-center font-mono font-bold text-xs">
-              +
-            </span>
-            <h4 class="font-bold text-accent-emerald text-base tracking-tight">Kategori Revisi (Gratis / Dalam Paket)</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- BENTO CARD REVISI -->
+        <div class="bg-apple-card border-2 border-emerald-500/40 rounded-3xl p-6 shadow-bento space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-mono font-bold text-xs">
+              ✓
+            </div>
+            <h4 class="font-bold text-emerald-800 text-base tracking-tight">Kategori Revisi (Gratis / Dalam Paket)</h4>
           </div>
-          <p class="text-xs text-ink-muted leading-relaxed">Penyesuaian terhadap alur yang telah disepakati pada Hari ke-1 agar nyaman dioperasikan:</p>
-          <ul class="space-y-3 text-xs sm:text-sm text-ink-body">
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-emerald font-bold">•</span>
-              <span><strong>Penyesuaian Label Kolom:</strong> Penggantian istilah (misal: "Iuran Siswa" menjadi "Kas Masuk SPP").</span>
+          <p class="text-xs text-apple-secondary leading-relaxed">
+            Perbaikan kenyamanan dan ketepatan alur yang sudah disepakati di Hari ke-1:
+          </p>
+          
+          <ul class="space-y-3 text-xs sm:text-sm text-apple-text">
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-emerald-50/40">
+              <span class="font-mono text-emerald-600 font-bold">•</span>
+              <span><strong>Ubah Label &amp; Kategori:</strong> Ganti nama kolom (misal: "Uang Masuk" jadi "Kas Masuk Penjualan").</span>
             </li>
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-emerald font-bold">•</span>
-              <span><strong>Ergonomi Tampilan Mobile:</strong> Memperbesar tombol aksi pada layar smartphone agar mudah ditekan.</span>
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-emerald-50/40">
+              <span class="font-mono text-emerald-600 font-bold">•</span>
+              <span><strong>Kenyamanan Layar Mobile:</strong> Memperbesar ukuran tombol aksi di HP agar mudah ditekan jempol.</span>
             </li>
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-emerald font-bold">•</span>
-              <span><strong>Koreksi Perhitungan:</strong> Perbaikan formula saldo kas atau rekapitulasi piutang yang tidak sinkron.</span>
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-emerald-50/40">
+              <span class="font-mono text-emerald-600 font-bold">•</span>
+              <span><strong>Koreksi Perhitungan:</strong> Perbaikan formula saldo kas atau akumulasi piutang yang keliru hitung.</span>
             </li>
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-emerald font-bold">•</span>
-              <span><strong>Tata Letak Rekapitulasi:</strong> Penyesuaian urutan kolom pada tabel laporan agar lebih runtut.</span>
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-emerald-50/40">
+              <span class="font-mono text-emerald-600 font-bold">•</span>
+              <span><strong>Tata Letak Rekapitulasi:</strong> Penyesuaian urutan kolom tabel laporan agar runtut saat dievaluasi.</span>
             </li>
           </ul>
         </div>
 
-        <!-- FITUR BARU BERBAYAR -->
-        <div class="bg-white border-2 border-rose-500/30 rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
-          <div class="flex items-center gap-2">
-            <span class="w-5 h-5 rounded-full bg-rose-100 text-accent-rose flex items-center justify-center font-mono font-bold text-xs">
-              -
-            </span>
-            <h4 class="font-bold text-accent-rose text-base tracking-tight">Penambahan Fitur (Masuk Fase 2 / Berbayar)</h4>
+        <!-- BENTO CARD FITUR BARU -->
+        <div class="bg-apple-card border-2 border-rose-500/30 rounded-3xl p-6 shadow-bento space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-mono font-bold text-xs">
+              ✕
+            </div>
+            <h4 class="font-bold text-rose-800 text-base tracking-tight">Penambahan Fitur (Masuk Fase 2 / Berbayar)</h4>
           </div>
-          <p class="text-xs text-ink-muted leading-relaxed">Kebutuhan logika baru atau integrasi pihak ketiga di luar kesepakatan awal:</p>
-          <ul class="space-y-3 text-xs sm:text-sm text-ink-body">
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-rose font-bold">•</span>
-              <span><strong>Integrasi WhatsApp Gateway:</strong> Pengiriman bukti tanda terima digital langsung ke nomor orang tua.</span>
+          <p class="text-xs text-apple-secondary leading-relaxed">
+            Permintaan logika baru atau integrasi pihak ketiga di luar kesepakatan awal:
+          </p>
+          
+          <ul class="space-y-3 text-xs sm:text-sm text-apple-text">
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-rose-50/40">
+              <span class="font-mono text-rose-600 font-bold">•</span>
+              <span><strong>Integrasi WhatsApp Gateway:</strong> Pengiriman nota digital otomatis langsung ke nomor WhatsApp pembeli.</span>
             </li>
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-rose font-bold">•</span>
-              <span><strong>Sistem Akun Bertingkat (Role/Auth):</strong> Pembuatan portal terpisah antara instruktur dan kasir.</span>
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-rose-50/40">
+              <span class="font-mono text-rose-600 font-bold">•</span>
+              <span><strong>Multi-User &amp; Hak Akses:</strong> Pembuatan akun bertingkat (misal: login kasir vs login pemilik usaha).</span>
             </li>
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-rose font-bold">•</span>
-              <span><strong>Modul di Luar Kas:</strong> Presensi barcode, penjadwalan ruang latihan, atau inventaris sewa busana.</span>
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-rose-50/40">
+              <span class="font-mono text-rose-600 font-bold">•</span>
+              <span><strong>Modul Ekstra di Luar Kas:</strong> Manajemen stok barang gudang (inventory barcode) atau absensi staf.</span>
             </li>
-            <li class="flex items-start gap-2.5">
-              <span class="font-mono text-accent-rose font-bold">•</span>
-              <span><strong>Perubahan Arsitektur:</strong> Migrasi dari LocalStorage offline ke database cloud multi-perangkat.</span>
+            <li class="flex items-start gap-2.5 p-2 rounded-xl bg-rose-50/40">
+              <span class="font-mono text-rose-600 font-bold">•</span>
+              <span><strong>Migrasi Cloud Multi-Device:</strong> Permintaan ubah dari LocalStorage offline ke database cloud terpusat.</span>
             </li>
           </ul>
         </div>
+
       </div>
     </div>
 
-    <!-- TAB 4: SOLUSI KASUS BUNDLING -->
-    <div id="tab-bundling" class="tab-content hidden space-y-6">
-      <div>
-        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Solusi Desain Input Bundling</h3>
-        <p class="text-xs text-ink-muted">Menjaga efisiensi input bagi pengguna tanpa merusak integritas agregasi data.</p>
+
+    <!-- ========================================================
+         TAB 04: SOLUSI BUNDLING (INTERACTIVE BENTO LAB)
+         ======================================================== -->
+    <div id="tab-bundling" class="tab-content hidden space-y-4">
+      
+      <div class="px-1">
+        <h3 class="text-base font-bold text-apple-text tracking-tight">Solusi Desain Input Bundling</h3>
+        <p class="text-xs text-apple-secondary">Klien ingin efisiensi tanpa repot mengetik ulang. Rancang form input fleksibel seperti simulasi ini:</p>
       </div>
 
-      <!-- INTERACTIVE SIMULATION -->
-      <div class="bg-white border border-surface-border rounded-2xl p-6 space-y-5 shadow-sm">
-        <div class="flex items-center justify-between border-b border-surface-border pb-3">
-          <span class="text-xs font-mono font-bold text-ink-heading uppercase tracking-wider">Simulasi Antarmuka Form Input</span>
-          <span class="text-xs text-ink-muted font-mono">Coba ubah isian di bawah</span>
+      <div class="bg-apple-card border border-apple-border rounded-3xl p-5 sm:p-6 shadow-bento space-y-5">
+        <div class="flex items-center justify-between border-b border-apple-border pb-3">
+          <span class="text-xs font-mono font-bold text-apple-text uppercase tracking-wider">Simulasi Form Input Usaha</span>
+          <span class="text-xs font-mono text-apple-secondary">Ubah nilai isian di bawah</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
           <div>
-            <label class="block text-ink-muted mb-1 font-semibold">Nama Siswa / Catatan Gabungan:</label>
-            <input type="text" id="demo-name" value="Rizky &amp; Fajar (Kakak Beradik)" class="w-full bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-ink-heading focus:outline-none focus:border-slate-900 transition">
-            <span class="text-[10px] text-ink-muted mt-1 block">Mendukung multi-nama dalam 1 kolom</span>
+            <label class="block text-apple-secondary mb-1.5 font-semibold">Keterangan / Transaksi Gabungan:</label>
+            <input type="text" id="demo-name" value="Pesanan Paket A &amp; B (Pelanggan Bu Rina)" class="w-full bg-apple-subtle border border-apple-borderStrong rounded-xl p-3 text-apple-text text-sm focus:outline-none focus:border-apple-blue transition min-h-[44px]">
+            <span class="text-[10px] text-apple-tertiary mt-1 block">Bebas ketik multi-item</span>
           </div>
 
           <div>
-            <label class="block text-ink-muted mb-1 font-semibold">Kategori Les &amp; Jumlah Siswa:</label>
+            <label class="block text-apple-secondary mb-1.5 font-semibold">Kategori &amp; Kuantitas Item:</label>
             <div class="flex gap-2">
-              <select id="demo-class" class="bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-ink-heading w-2/3 focus:outline-none focus:border-slate-900 transition">
-                <option>Les Vokal</option>
-                <option>Beatbox</option>
-                <option>Tari Tradisional</option>
+              <select id="demo-class" class="bg-apple-subtle border border-apple-borderStrong rounded-xl p-3 text-apple-text text-sm w-2/3 focus:outline-none focus:border-apple-blue transition min-h-[44px]">
+                <option>Paket Layanan</option>
+                <option>Penjualan Barang</option>
+                <option>Jasa Konsultasi</option>
               </select>
-              <input type="number" id="demo-count" value="2" min="1" class="w-1/3 bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-ink-heading text-center font-bold focus:outline-none focus:border-slate-900 transition">
+              <input type="number" id="demo-count" value="2" min="1" class="w-1/3 bg-apple-subtle border border-apple-borderStrong rounded-xl p-3 text-apple-text text-sm text-center font-bold focus:outline-none focus:border-apple-blue transition min-h-[44px]">
             </div>
-            <span class="text-[10px] text-ink-muted mt-1 block">Variabel kepala untuk hitung honor instruktur</span>
+            <span class="text-[10px] text-apple-tertiary mt-1 block">Variabel kuantitas untuk rekap volume</span>
           </div>
 
           <div>
-            <label class="block text-ink-muted mb-1 font-semibold">Total Pembayaran (Rp):</label>
-            <input type="number" id="demo-amount" value="300000" class="w-full bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-accent-emerald font-bold focus:outline-none focus:border-slate-900 transition">
-            <span class="text-[10px] text-ink-muted mt-1 block">Kas masuk yang diakumulasikan</span>
+            <label class="block text-apple-secondary mb-1.5 font-semibold">Total Pembayaran (Rp):</label>
+            <input type="number" id="demo-amount" value="350000" class="w-full bg-apple-subtle border border-apple-borderStrong rounded-xl p-3 text-emerald-700 text-sm font-bold focus:outline-none focus:border-apple-blue transition min-h-[44px]">
+            <span class="text-[10px] text-apple-tertiary mt-1 block">Total kas masuk kasir</span>
           </div>
         </div>
 
-        <!-- RESULT PREVIEW -->
-        <div class="p-4 rounded-xl bg-surface-subtle border border-surface-border space-y-2 text-xs">
-          <div class="text-ink-muted font-mono text-[11px] flex justify-between">
-            <span>Tampilan Rekap Pengguna (Tetap 1 Baris):</span>
-            <span class="text-accent-emerald font-semibold">Penyimpanan: LocalStorage</span>
+        <!-- Bento Live Output Row -->
+        <div class="p-4 rounded-2xl bg-apple-subtle border border-apple-border space-y-2 text-xs">
+          <div class="text-apple-secondary font-mono text-[11px] flex justify-between">
+            <span>Tampilan Rekap Pengguna (Tetap Ringkas 1 Baris):</span>
+            <span class="text-emerald-700 font-bold font-sans">LocalStorage Ready</span>
           </div>
-          <div class="p-3.5 rounded-lg bg-white border border-surface-border flex flex-wrap items-center justify-between gap-2 font-mono shadow-sm">
+          
+          <div class="p-3.5 rounded-xl bg-white border border-apple-border flex flex-wrap items-center justify-between gap-2 font-mono shadow-sm">
             <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded bg-slate-100 text-ink-heading text-[11px] font-semibold border border-slate-200">
-                Vokal (2 Org)
+              <span class="px-2 py-0.5 rounded-md bg-slate-100 text-apple-text text-[11px] font-semibold border border-slate-200">
+                Paket Layanan (2 Item)
               </span>
-              <span class="text-ink-heading font-bold" id="preview-row-name">Rizky &amp; Fajar (Kakak Beradik)</span>
+              <span class="text-apple-text font-bold" id="preview-row-name">Pesanan Paket A &amp; B (Pelanggan Bu Rina)</span>
             </div>
             <div class="flex items-center gap-4">
-              <span class="text-accent-emerald font-bold text-sm" id="preview-row-amount">Rp 300.000</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder text-[10px] font-bold">LUNAS</span>
+              <span class="text-emerald-700 font-bold text-sm" id="preview-row-amount">Rp 350.000</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold">LUNAS</span>
             </div>
           </div>
-          <p class="text-[11px] text-ink-body pt-1 leading-relaxed">
-            <strong>Keunggulan Implementasi:</strong> Klien tidak perlu mengetik berulang kali untuk transaksi serentak, sementara sistem tetap menyimpan metadata kuantitas siswa untuk akurasi pelaporan operasional sanggar.
+          
+          <p class="text-[11px] text-apple-secondary pt-1 leading-relaxed">
+            💡 <strong>Nilai Plus:</strong> Klien senang karena tabelnya ringkas dan tidak membuang waktu input berulang-ulang, sementara sistem developer tetap rapi menyimpan atribut volume untuk kalkulasi analitik akhir bulan.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- TAB 5: SPRINT ROADMAP 6 HARI -->
-    <div id="tab-timeline" class="tab-content hidden space-y-6">
-      <div>
-        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Roadmap Sprint 6 Hari (Nilai Proyek: Rp 1.500.000)</h3>
-        <p class="text-xs text-ink-muted">Pembagian tahapan kerja dengan dua titik evaluasi formal.</p>
+
+    <!-- ========================================================
+         TAB 05: ROADMAP SPRINT 6 HARI (BENTO TIMELINE)
+         ======================================================== -->
+    <div id="tab-timeline" class="tab-content hidden space-y-4">
+      
+      <div class="px-1">
+        <h3 class="text-base font-bold text-apple-text tracking-tight">Roadmap Sprint 6 Hari (Rp 1.500.000)</h3>
+        <p class="text-xs text-apple-secondary">Alur eksekusi terstruktur dengan 2 gerbang evaluasi resmi (Review Gates).</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        
         <!-- HARI 1 -->
-        <div class="bg-white border border-surface-border rounded-2xl p-5 space-y-3 shadow-sm">
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 shadow-bento space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-ink-heading">HARI KE-1</span>
-            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-medium bg-slate-100 text-ink-body border border-slate-200">Data Lock</span>
+            <span class="text-xs font-mono font-bold text-apple-text">HARI 01</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold bg-slate-100 text-apple-secondary border border-slate-200">Data Lock</span>
           </div>
-          <h4 class="font-bold text-ink-heading text-sm">Wawancara 45m &amp; Penyerahan 10 Baris Data</h4>
-          <p class="text-xs text-ink-body leading-relaxed">
-            Eksekusi interview 3 blok. Dapatkan 10 baris data riil Excel sanggar. Konfirmasi via WhatsApp mengenai jadwal dua kali sesi review resmi.
+          <h4 class="font-bold text-apple-text text-sm">Wawancara 45m &amp; 10 Baris Data Riil</h4>
+          <p class="text-xs text-apple-secondary leading-relaxed">
+            Eksekusi interview 3 blok. Dapatkan 10 baris data Excel riil pembukuan. Kunci kesepakatan via chat WA bahwa alur pengerjaan memiliki 2x review resmi.
           </p>
         </div>
 
         <!-- HARI 2 & 3 -->
-        <div class="bg-white border border-surface-border rounded-2xl p-5 space-y-3 shadow-sm">
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 shadow-bento space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-ink-heading">HARI KE-2 &amp; 3</span>
-            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-medium bg-slate-100 text-ink-body border border-slate-200">Core Build</span>
+            <span class="text-xs font-mono font-bold text-apple-text">HARI 02–03</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold bg-blue-50 text-apple-blue border border-blue-200">Core Build</span>
           </div>
-          <h4 class="font-bold text-ink-heading text-sm">Pengembangan Inti Web App &amp; LocalStorage</h4>
-          <p class="text-xs text-ink-body leading-relaxed">
-            Membangun form transaksi pendaftaran (dukungan bundling), form beban operasional, persistensi LocalStorage, dan tabel rekapitulasi harian.
+          <h4 class="font-bold text-apple-text text-sm">Pengembangan Web App &amp; LocalStorage</h4>
+          <p class="text-xs text-apple-secondary leading-relaxed">
+            Membangun form transaksi pemasukan (dukungan bundling), form beban operasional, persistensi LocalStorage, dan tabel rekapitulasi harian.
           </p>
         </div>
 
         <!-- HARI 4 -->
-        <div class="bg-white border-2 border-amber-500/50 rounded-2xl p-5 space-y-3 shadow-sm">
+        <div class="bg-apple-card border-2 border-amber-500/50 rounded-3xl p-5 shadow-bento space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-accent-amber">HARI KE-4</span>
-            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-amber-50 text-accent-amber border border-accent-amberBorder">Review 1</span>
+            <span class="text-xs font-mono font-bold text-amber-700">HARI 04</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold bg-amber-50 text-amber-800 border border-amber-200">Review Gate 1</span>
           </div>
-          <h4 class="font-bold text-ink-heading text-sm">Evaluasi Pertama: Uji Pengalaman Input</h4>
-          <p class="text-xs text-ink-body leading-relaxed">
-            Kirimkan tautan pengujian kepada klien. Minta pemilik mencoba input 3 transaksi simulasi di HP. Catat perbaikan terkait tata letak tombol dan kejelasan label.
+          <h4 class="font-bold text-apple-text text-sm">Review 1: Uji Kenyamanan Input</h4>
+          <p class="text-xs text-apple-secondary leading-relaxed">
+            Kirim tautan pengujian ke klien. Minta pemilik mencoba input 3 transaksi di HP. Catat perbaikan terkait ukuran tombol dan kejelasan istilah kolom.
           </p>
         </div>
 
         <!-- HARI 5 -->
-        <div class="bg-white border border-surface-border rounded-2xl p-5 space-y-3 shadow-sm">
+        <div class="bg-apple-card border border-apple-border rounded-3xl p-5 shadow-bento space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-ink-heading">HARI KE-5</span>
-            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-medium bg-slate-100 text-ink-body border border-slate-200">Polishing</span>
+            <span class="text-xs font-mono font-bold text-apple-text">HARI 05</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold bg-slate-100 text-apple-secondary border border-slate-200">Polishing</span>
           </div>
-          <h4 class="font-bold text-ink-heading text-sm">Penyelesaian Revisi &amp; Penyempurnaan UI</h4>
-          <p class="text-xs text-ink-body leading-relaxed">
-            Mengerjakan poin perbaikan dari Review 1. Menambahkan fitur ekspor CSV/Excel sebagai cadangan, merapikan palet visual sanggar, dan memastikan performa responsif.
+          <h4 class="font-bold text-apple-text text-sm">Penyelesaian Revisi &amp; UI Polish</h4>
+          <p class="text-xs text-apple-secondary leading-relaxed">
+            Mengerjakan masukan Review 1. Menambahkan tombol ekspor file cadangan CSV/Excel, merapikan palet visual usaha, dan memastikan responsivitas mobile.
           </p>
         </div>
 
-        <!-- HARI 6 -->
-        <div class="bg-white border-2 border-emerald-500/50 rounded-2xl p-5 space-y-3 sm:col-span-2 shadow-sm">
+        <!-- HARI 6 (Span 2) -->
+        <div class="bg-apple-card border-2 border-emerald-500/50 rounded-3xl p-5 shadow-bento space-y-3 sm:col-span-2">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-accent-emerald">HARI KE-6</span>
-            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder">Review 2 &amp; Handover</span>
+            <span class="text-xs font-mono font-bold text-emerald-800">HARI 06</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">Review Gate 2 &amp; Handover</span>
           </div>
-          <h4 class="font-bold text-ink-heading text-sm">Pemeriksaan Final, Video Panduan 2 Menit, &amp; Permintaan Referensi</h4>
-          <p class="text-xs text-ink-body leading-relaxed">
-            Verifikasi akhir bersama pemilik. Lampirkan rekaman layar tutorial 2 menit penggunaan di ponsel. Setelah kepuasan terkonfirmasi, minta izin untuk mendokumentasikan proyek sebagai studi kasus portofolio dan jajaki referensi jejaring sanggar seni lainnya di Sukabumi.
+          <h4 class="font-bold text-apple-text text-sm">Pemeriksaan Final, Video Panduan 2 Menit, &amp; Permintaan Referensi</h4>
+          <p class="text-xs text-apple-secondary leading-relaxed">
+            Verifikasi akhir bersama pemilik. Lampirkan video screen record 2 menit cara pakai di smartphone. Setelah kepuasan terkonfirmasi, minta izin mendokumentasikan proyek sebagai studi kasus portofolio dan jajaki referensi jejaring bisnis/rekanan lainnya!
           </p>
         </div>
+
       </div>
     </div>
 
   </main>
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white font-mono text-xs px-4 py-2.5 rounded-xl shadow-xl transform translate-y-20 opacity-0 transition duration-300 pointer-events-none flex items-center gap-2 z-50">
-    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-    <span id="toast-text">Teks naskah berhasil disalin ke clipboard.</span>
+  <!-- ========================================================
+       MOBILE FLOATING THUMB DOCK (iOS DYNAMIC BAR)
+       ======================================================== -->
+  <aside class="sm:hidden fixed bottom-4 inset-x-4 z-50">
+    <div class="bg-white/95 backdrop-blur-2xl border border-apple-borderStrong/60 rounded-full px-4 py-2.5 shadow-dock flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 min-w-0">
+        <svg class="w-4 h-4 text-apple-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span class="text-xs text-apple-secondary font-mono truncate">Interview:</span>
+        <span id="timerDisplayMobile" class="font-mono font-extrabold text-apple-text text-sm w-12 text-center tracking-tight">45:00</span>
+      </div>
+
+      <div class="flex items-center gap-1.5 flex-shrink-0">
+        <button onclick="toggleTimer()" class="pressable min-h-[44px] px-4 py-2 rounded-full bg-apple-text text-white text-xs font-bold shadow-sm">
+          <span class="timerToggleLabel">Mulai</span>
+        </button>
+        <button onclick="resetTimer()" class="pressable min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-apple-secondary hover:text-apple-text text-base" title="Reset">
+          ↺
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- APPLE-STYLE TOAST BANNER -->
+  <div id="toast" class="fixed bottom-20 sm:bottom-6 inset-x-4 max-w-sm mx-auto bg-apple-text/95 backdrop-blur-xl text-white font-mono text-xs px-4 py-3 rounded-2xl shadow-2xl transform translate-y-24 opacity-0 transition duration-200 pointer-events-none flex items-center gap-2.5 z-50">
+    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+    <span id="toast-text" class="font-sans font-medium text-xs">Naskah berhasil disalin ke clipboard.</span>
   </div>
 
-  <!-- INTERACTIVE JS LOGIC -->
+  <!-- INTERACTIVE JS CONTROLLER -->
   <script>
     // Tab Switching
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
+      document.querySelectorAll('.segmented-item').forEach(btn => btn.classList.remove('active'));
       
       const target = document.getElementById(tabId);
       if (target) target.classList.remove('hidden');
 
       const activeBtn = document.getElementById('btn-' + tabId);
-      if (activeBtn) activeBtn.classList.add('tab-active');
+      if (activeBtn) activeBtn.classList.add('active');
     }
 
     // Copy Script Helper
     function copyScript(id, btn) {
       const text = document.getElementById(id).innerText;
       navigator.clipboard.writeText(text).then(() => {
-        showToast('Naskah berhasil disalin ke clipboard.');
+        showToast('Naskah berhasil disalin.');
         const originalContent = btn.innerHTML;
         btn.innerHTML = `
-          <svg class="w-3.5 h-3.5 text-accent-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
-          <span class="text-accent-emerald font-semibold">Tersalin</span>
+          <span class="text-emerald-700 font-bold">Tersalin</span>
         `;
         setTimeout(() => { btn.innerHTML = originalContent; }, 2000);
       });
@@ -621,35 +747,34 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toast-text').textContent = msg;
-      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.remove('translate-y-24', 'opacity-0');
       setTimeout(() => {
-        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-24', 'opacity-0');
       }, 2500);
     }
 
-    // Timer Logic (45 Mins Countdown)
+    // Timer Logic (45 Mins Countdown - Syncs Desktop & Mobile Dock)
     let timeLeft = 45 * 60;
     let timerInterval = null;
 
     function updateTimerDisplay() {
       const mins = Math.floor(timeLeft / 60);
       const secs = timeLeft % 60;
-      document.getElementById('timerDisplay').textContent = 
-        `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const str = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const hEl = document.getElementById('timerDisplayHeader');
+      const mEl = document.getElementById('timerDisplayMobile');
+      if (hEl) hEl.textContent = str;
+      if (mEl) mEl.textContent = str;
     }
 
     function toggleTimer() {
-      const btn = document.getElementById('timerToggleBtn');
+      const labels = document.querySelectorAll('.timerToggleLabel');
       if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
-        btn.textContent = 'Mulai';
-        btn.classList.remove('bg-amber-50', 'text-amber-800');
-        btn.classList.add('bg-white', 'text-ink-heading');
+        labels.forEach(l => l.textContent = 'Mulai');
       } else {
-        btn.textContent = 'Jeda';
-        btn.classList.remove('bg-white', 'text-ink-heading');
-        btn.classList.add('bg-amber-50', 'text-amber-800');
+        labels.forEach(l => l.textContent = 'Jeda');
         timerInterval = setInterval(() => {
           if (timeLeft > 0) {
             timeLeft--;
@@ -657,7 +782,7 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
           } else {
             clearInterval(timerInterval);
             timerInterval = null;
-            btn.textContent = 'Selesai';
+            labels.forEach(l => l.textContent = 'Selesai');
             alert('Waktu wawancara 45 menit telah selesai.');
           }
         }, 1000);
@@ -669,10 +794,7 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
       timerInterval = null;
       timeLeft = 45 * 60;
       updateTimerDisplay();
-      const btn = document.getElementById('timerToggleBtn');
-      btn.textContent = 'Mulai';
-      btn.classList.remove('bg-amber-50', 'text-amber-800');
-      btn.classList.add('bg-white', 'text-ink-heading');
+      document.querySelectorAll('.timerToggleLabel').forEach(l => l.textContent = 'Mulai');
     }
 
     // Persistent Checklist (LocalStorage)
@@ -682,11 +804,11 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
         const el = document.getElementById(`chk-${i}`);
         if (el) checks[`chk-${i}`] = el.checked;
       }
-      localStorage.setItem('dev_sop_checklist_light', JSON.stringify(checks));
+      localStorage.setItem('dev_sop_checklist_bento_v2', JSON.stringify(checks));
     }
 
     function loadChecklist() {
-      const saved = localStorage.getItem('dev_sop_checklist_light');
+      const saved = localStorage.getItem('dev_sop_checklist_bento_v2');
       if (saved) {
         try {
           const checks = JSON.parse(saved);
@@ -704,7 +826,7 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
           const el = document.getElementById(`chk-${i}`);
           if (el) el.checked = false;
         }
-        localStorage.removeItem('dev_sop_checklist_light');
+        localStorage.removeItem('dev_sop_checklist_bento_v2');
       }
     }
 
@@ -713,7 +835,7 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
       if (['demo-name', 'demo-amount', 'demo-class', 'demo-count'].includes(e.target.id)) {
         const nameVal = document.getElementById('demo-name').value;
         const amountVal = Number(document.getElementById('demo-amount').value || 0).toLocaleString('id-ID');
-        document.getElementById('preview-row-name').textContent = nameVal || '(Nama Siswa)';
+        document.getElementById('preview-row-name').textContent = nameVal || '(Keterangan Transaksi)';
         document.getElementById('preview-row-amount').textContent = `Rp ${amountVal}`;
       }
     });
