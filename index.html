@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" class="dark scroll-smooth">
+<html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOP Briefing Klien 45 Menit — Web App Pembukuan Sanggar Seni</title>
+  <title>SOP Briefing Klien — Web App Pembukuan Sanggar Seni</title>
   
   <!-- Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,23 +13,33 @@
 
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#ECFDF5',
-              400: '#34D399',
-              500: '#10B981',
-              600: '#059669',
-              900: '#064E3B',
+            surface: {
+              canvas: '#F8FAFC',
+              card: '#FFFFFF',
+              elevated: '#FFFFFF',
+              subtle: '#F1F5F9',
+              border: '#E2E8F0',
+              borderStrong: '#CBD5E1',
             },
-            dark: {
-              base: '#0A0D14',
-              surface: '#111622',
-              card: '#161C2C',
-              border: '#232B3E',
-              borderLight: '#2E384D',
+            ink: {
+              heading: '#0F172A',
+              body: '#334155',
+              muted: '#64748B',
+              faint: '#94A3B8',
+            },
+            accent: {
+              emerald: '#059669',
+              emeraldBg: '#ECFDF5',
+              emeraldBorder: '#A7F3D0',
+              amber: '#D97706',
+              amberBg: '#FFFBEB',
+              amberBorder: '#FDE68A',
+              rose: '#E11D48',
+              roseBg: '#FFF1F2',
+              roseBorder: '#FECDD3',
             }
           },
           fontFamily: {
@@ -42,115 +52,126 @@
   </script>
 
   <style>
-    /* Smooth custom scrollbars & feel */
+    /* Custom light scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0A0D14; }
-    ::-webkit-scrollbar-thumb { background: #232B3E; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #374151; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
-    .glow-emerald {
-      box-shadow: 0 0 35px -8px rgba(16, 185, 129, 0.25);
-    }
-    .glow-amber {
-      box-shadow: 0 0 35px -8px rgba(245, 158, 11, 0.2);
-    }
     .tab-active {
-      background: rgba(16, 185, 129, 0.12);
-      border-color: #10B981;
-      color: #34D399;
+      background: #0F172A !important;
+      color: #FFFFFF !important;
+      border-color: #0F172A !important;
+      box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.15);
     }
   </style>
 </head>
-<body class="bg-dark-base text-slate-200 font-sans min-h-screen selection:bg-brand-500/30 selection:text-brand-400">
+<body class="bg-surface-canvas text-ink-body font-sans min-h-screen selection:bg-emerald-100 selection:text-emerald-900 antialiased">
 
-  <!-- TOP STATUS BAR -->
-  <header class="border-b border-dark-border/80 bg-dark-surface/90 sticky top-0 z-50 backdrop-blur-md">
+  <!-- TOP HEADER & DOCK -->
+  <header class="border-b border-surface-border bg-white/90 sticky top-0 z-50 backdrop-blur-md">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand & Project Meta -->
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-brand-500/10 border border-brand-500/30 flex items-center justify-center text-brand-400 font-mono font-bold text-sm">
+        <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white font-mono font-bold text-xs tracking-wider">
           SOP
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-sm font-bold text-white tracking-wide">Developer Briefing Playbook</h1>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Sprint 6 Hari</span>
+            <h1 class="text-sm font-extrabold text-ink-heading tracking-tight">Developer Briefing Playbook</h1>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder">
+              Sprint 6 Hari
+            </span>
           </div>
-          <p class="text-xs text-slate-400">Kasus: Klien 2 (Sanggar Seni Sukabumi) • Budget Rp 1.5M</p>
+          <p class="text-xs text-ink-muted">Sanggar Seni Sukabumi • LocalStorage Web App • Budget Rp 1.5M</p>
         </div>
       </div>
 
-      <!-- TIMER COMPACT WIDGET -->
-      <div class="flex items-center gap-2 bg-dark-card border border-dark-border px-3 py-1.5 rounded-xl font-mono text-xs shadow-inner">
-        <span class="text-slate-400">⏱️ Interview:</span>
-        <span id="timerDisplay" class="font-bold text-brand-400 text-sm w-12 text-center">45:00</span>
-        <button id="timerToggleBtn" onclick="toggleTimer()" class="px-2 py-1 rounded bg-brand-500/20 hover:bg-brand-500/30 text-brand-300 font-sans text-xs transition">
+      <!-- TIMER COMPACT WIDGET (MINIMALIST) -->
+      <div class="flex items-center gap-2 bg-surface-subtle border border-surface-border px-3 py-1.5 rounded-lg font-mono text-xs">
+        <svg class="w-3.5 h-3.5 text-ink-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span class="text-ink-muted">Interview:</span>
+        <span id="timerDisplay" class="font-bold text-ink-heading text-sm w-12 text-center tracking-tight">45:00</span>
+        
+        <button id="timerToggleBtn" onclick="toggleTimer()" class="px-2.5 py-1 rounded bg-white hover:bg-slate-50 border border-surface-border text-ink-heading font-sans text-xs font-semibold shadow-sm transition">
           Mulai
         </button>
-        <button onclick="resetTimer()" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 font-sans text-xs transition" title="Reset ke 45:00">
+        <button onclick="resetTimer()" class="px-2 py-1 rounded hover:bg-slate-200/60 text-ink-muted font-sans text-xs transition" title="Reset 45 Menit">
           Reset
         </button>
       </div>
+
     </div>
   </header>
 
   <!-- MAIN CONTAINER -->
   <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
 
-    <!-- HERO CONTEXT CARD -->
-    <section class="bg-gradient-to-br from-dark-surface to-dark-card border border-dark-border rounded-2xl p-6 sm:p-8 relative overflow-hidden glow-emerald">
-      <div class="absolute -right-16 -top-16 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      
+    <!-- HERO CONTEXT CARD (LIGHT EDITORIAL) -->
+    <section class="bg-white border border-surface-border rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
       <div class="space-y-4 max-w-3xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs font-mono">
-          <span>⚠️ Belajar dari Klien 1:</span>
-          <span>Target 3 Hari Molor Jadi 6 Hari Akibat Revisi Labil</span>
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-50 border border-accent-amberBorder text-accent-amber text-xs font-mono font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent-amber"></span>
+          <span>Pelajaran Klien 1: Target 3 hari molor jadi 6 hari akibat revisi labil</span>
         </div>
         
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-ink-heading leading-tight tracking-tight">
           Panduan Kunci Kebutuhan Klien 80% di Awal &amp; Pengendalian Revisi
         </h2>
         
-        <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
-          Klien kedua ini adalah pemilik sanggar seni (tempat les beatbox, tari, vokal). Karena dia referensi dari klien pertama yang kemarin revisinya tanpa batas, kita wajib mengunci batasan tanpa membuatnya merasa di-judge kaku. Kuncinya: <strong class="text-brand-400">posisikan batasan sebagai jaminan proyek cepat selesai dan anti-molor</strong>.
+        <p class="text-sm sm:text-base text-ink-body leading-relaxed">
+          Klien kedua ini adalah pemilik sanggar seni (tempat les beatbox, tari, vokal). Karena ia adalah referensi langsung dari klien pertama yang revisinya tanpa batas, batasan revisi dikemas sebagai <strong class="text-ink-heading underline decoration-accent-emerald decoration-2">Jaminan Tepat Waktu 6 Hari Kerja</strong> agar terhindar dari gesekan atau kesan kaku.
         </p>
 
+        <!-- Metrics Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs font-mono">
-          <div class="p-3 rounded-xl bg-dark-base/60 border border-dark-border">
-            <span class="text-slate-400 block text-[11px]">Durasi Interview</span>
-            <span class="text-white font-bold text-sm">30 – 45 Menit</span>
+          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
+            <span class="text-ink-muted block text-[11px]">Durasi Interview</span>
+            <span class="text-ink-heading font-bold text-sm">30 – 45 Menit</span>
           </div>
-          <div class="p-3 rounded-xl bg-dark-base/60 border border-dark-border">
-            <span class="text-slate-400 block text-[11px]">Target Selesai</span>
-            <span class="text-white font-bold text-sm">Maks. 6 Hari Kerja</span>
+          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
+            <span class="text-ink-muted block text-[11px]">Batas Waktu</span>
+            <span class="text-ink-heading font-bold text-sm">Maks. 6 Hari</span>
           </div>
-          <div class="p-3 rounded-xl bg-dark-base/60 border border-dark-border">
-            <span class="text-slate-400 block text-[11px]">Sesi Review Resmi</span>
-            <span class="text-brand-400 font-bold text-sm">2 Kali (H4 &amp; H5)</span>
+          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
+            <span class="text-ink-muted block text-[11px]">Sesi Review Resmi</span>
+            <span class="text-accent-emerald font-bold text-sm">2x (H4 &amp; H5)</span>
           </div>
-          <div class="p-3 rounded-xl bg-dark-base/60 border border-dark-border">
-            <span class="text-slate-400 block text-[11px]">Nilai Proyek</span>
-            <span class="text-white font-bold text-sm">Rp 1.500.000</span>
+          <div class="p-3 rounded-xl bg-surface-subtle border border-surface-border">
+            <span class="text-ink-muted block text-[11px]">Nilai Proyek</span>
+            <span class="text-ink-heading font-bold text-sm">Rp 1.500.000</span>
           </div>
         </div>
+
       </div>
     </section>
 
-    <!-- NAVIGATION TABS -->
-    <nav class="flex flex-wrap gap-2 border-b border-dark-border pb-3 text-xs sm:text-sm font-medium">
-      <button onclick="switchTab('tab-interview')" id="btn-tab-interview" class="tab-btn tab-active px-4 py-2 rounded-xl border border-transparent transition flex items-center gap-2">
-        <span>📋</span> <span>Protokol Interview 45m</span>
+    <!-- NAVIGATION TABS (REFINED PILL DOCK) -->
+    <nav class="flex flex-wrap gap-2 border-b border-surface-border pb-3 text-xs sm:text-sm font-medium">
+      <button onclick="switchTab('tab-interview')" id="btn-tab-interview" class="tab-btn tab-active px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
+        <span class="font-mono text-xs opacity-60">01</span>
+        <span>Protokol Interview 45m</span>
       </button>
-      <button onclick="switchTab('tab-scripts')" id="btn-tab-scripts" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-white hover:bg-dark-card transition flex items-center gap-2">
-        <span>💬</span> <span>Skrip Anti-Tersinggung</span>
+      <button onclick="switchTab('tab-scripts')" id="btn-tab-scripts" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
+        <span class="font-mono text-xs opacity-60">02</span>
+        <span>Skrip Anti-Tersinggung</span>
       </button>
-      <button onclick="switchTab('tab-scope')" id="btn-tab-scope" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-white hover:bg-dark-card transition flex items-center gap-2">
-        <span>⚖️</span> <span>Revisi vs Fitur Baru</span>
+      <button onclick="switchTab('tab-scope')" id="btn-tab-scope" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
+        <span class="font-mono text-xs opacity-60">03</span>
+        <span>Revisi vs Fitur Baru</span>
       </button>
-      <button onclick="switchTab('tab-bundling')" id="btn-tab-bundling" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-white hover:bg-dark-card transition flex items-center gap-2">
-        <span>🧩</span> <span>Solusi Kasus Bundling</span>
+      <button onclick="switchTab('tab-bundling')" id="btn-tab-bundling" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
+        <span class="font-mono text-xs opacity-60">04</span>
+        <span>Solusi Kasus Bundling</span>
       </button>
-      <button onclick="switchTab('tab-timeline')" id="btn-tab-timeline" class="tab-btn px-4 py-2 rounded-xl border border-transparent text-slate-400 hover:text-white hover:bg-dark-card transition flex items-center gap-2">
-        <span>📅</span> <span>Sprint Roadmap 6 Hari</span>
+      <button onclick="switchTab('tab-timeline')" id="btn-tab-timeline" class="tab-btn px-4 py-2 rounded-xl border border-surface-border text-ink-muted hover:text-ink-heading bg-white transition flex items-center gap-2 font-medium">
+        <span class="font-mono text-xs opacity-60">05</span>
+        <span>Sprint Roadmap 6 Hari</span>
       </button>
     </nav>
 
@@ -158,102 +179,110 @@
     <div id="tab-interview" class="tab-content space-y-6">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="text-lg font-bold text-white">Alur Wawancara 3 Blok (30–45 Menit)</h3>
-          <p class="text-xs text-slate-400">Centang poin yang sudah ditanyakan selama sesi zoom/ketemu klien. (Tersimpan otomatis di browser)</p>
+          <h3 class="text-lg font-bold text-ink-heading tracking-tight">Alur Wawancara 3 Blok (30–45 Menit)</h3>
+          <p class="text-xs text-ink-muted">Centang poin yang telah ditanyakan. Progres checklist otomatis tersimpan di peramban.</p>
         </div>
-        <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-white underline">Reset Checklist</button>
+        <button onclick="resetChecklist()" class="text-xs text-ink-muted hover:text-ink-heading underline">
+          Reset Centang
+        </button>
       </div>
 
       <!-- BLOK 1 -->
-      <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
-        <div class="flex items-center justify-between border-b border-dark-border/60 pb-3">
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-mono text-xs font-bold">Blok 1 (00:00 - 15:00)</span>
-            <h4 class="font-bold text-white text-sm sm:text-base">Bongkar Alur Riil Kas &amp; Pendaftaran Siswa</h4>
+      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+        <div class="flex items-center justify-between border-b border-surface-border pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="px-2.5 py-0.5 rounded font-mono text-xs font-bold bg-slate-100 text-ink-heading border border-slate-200">
+              Blok 1 (00:00 - 15:00)
+            </span>
+            <h4 class="font-bold text-ink-heading text-sm sm:text-base">Bedah Alur Riil Kas &amp; Pendaftaran Siswa</h4>
           </div>
-          <span class="text-xs text-slate-400 font-mono">15 Menit</span>
+          <span class="text-xs font-mono text-ink-muted">15 Menit</span>
         </div>
 
         <div class="space-y-3">
-          <label class="flex items-start gap-3 p-3 rounded-xl bg-dark-card/60 hover:bg-dark-card border border-transparent hover:border-dark-borderLight transition cursor-pointer">
-            <input type="checkbox" id="chk-1" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-brand-500 bg-dark-base border-dark-border focus:ring-0">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
+            <input type="checkbox" id="chk-1" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
             <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-semibold text-slate-200">1. Alur Pendaftaran Siswa Baru:</span>
-              <p class="text-slate-400 text-xs">Siapa yang terima uang? Apakah langsung bayar lunas pendaftaran + SPP bulan pertama, atau boleh DP? Apakah uangnya masuk tunai di laci atau transfer rekening pribadi/sanggar?</p>
+              <span class="font-bold text-ink-heading">1. Alur Pendaftaran Siswa Baru:</span>
+              <p class="text-ink-body text-xs leading-relaxed">Siapa penerima uang fisik/transfer? Apakah langsung bayar pendaftaran + SPP bulan pertama, atau ada skema cicilan/DP? Apakah masuk laci kasir atau rekening pemilik?</p>
             </div>
           </label>
 
-          <label class="flex items-start gap-3 p-3 rounded-xl bg-dark-card/60 hover:bg-dark-card border border-transparent hover:border-dark-borderLight transition cursor-pointer">
-            <input type="checkbox" id="chk-2" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-brand-500 bg-dark-base border-dark-border focus:ring-0">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
+            <input type="checkbox" id="chk-2" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
             <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-semibold text-slate-200">2. Identitas Kelas &amp; Kategori Les:</span>
-              <p class="text-slate-400 text-xs">Ada kelas les apa saja di sanggar? (Vokal, Tari Tradisional/Modern, Beatbox, Musik, dll). Apakah tarif tiap kelas sama atau beda-beda?</p>
+              <span class="font-bold text-ink-heading">2. Identitas Kelas &amp; Kategori Les:</span>
+              <p class="text-ink-body text-xs leading-relaxed">Daftar kelas di sanggar: Vokal, Tari Tradisional/Modern, Beatbox, Musik, dll. Apakah tarif tiap les sama rata atau memiliki pengelompokan biaya tersendiri?</p>
             </div>
           </label>
 
-          <label class="flex items-start gap-3 p-3 rounded-xl bg-dark-card/60 hover:bg-dark-card border border-transparent hover:border-dark-borderLight transition cursor-pointer">
-            <input type="checkbox" id="chk-3" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-brand-500 bg-dark-base border-dark-border focus:ring-0">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
+            <input type="checkbox" id="chk-3" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
             <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-semibold text-slate-200">3. Jenis Pengeluaran Operasional Harian:</span>
-              <p class="text-slate-400 text-xs">Pengeluaran rutin sanggar meliputi apa saja? (Honor pengajar per sesi/bulanan, air mineral/konsumsi, sound system, sewa tempat, perlengkapan panggung).</p>
+              <span class="font-bold text-ink-heading">3. Jenis Pengeluaran Operasional Harian:</span>
+              <p class="text-ink-body text-xs leading-relaxed">Pengeluaran rutin sanggar: honor instruktur per pertemuan/bulanan, konsumsi/air galon, sewa sound system, sewa gedung, dan perlengkapan pentas.</p>
             </div>
           </label>
         </div>
       </div>
 
       <!-- BLOK 2 -->
-      <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
-        <div class="flex items-center justify-between border-b border-dark-border/60 pb-3">
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-mono text-xs font-bold">Blok 2 (15:00 - 30:00)</span>
-            <h4 class="font-bold text-white text-sm sm:text-base">Bedah Kebiasaan Bundling &amp; Kasus Piutang / Nunggak</h4>
+      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+        <div class="flex items-center justify-between border-b border-surface-border pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="px-2.5 py-0.5 rounded font-mono text-xs font-bold bg-amber-50 text-accent-amber border border-accent-amberBorder">
+              Blok 2 (15:00 - 30:00)
+            </span>
+            <h4 class="font-bold text-ink-heading text-sm sm:text-base">Penanganan Pola Bundling &amp; Kasus Piutang / Nunggak</h4>
           </div>
-          <span class="text-xs text-slate-400 font-mono">15 Menit</span>
+          <span class="text-xs font-mono text-ink-muted">15 Menit</span>
         </div>
 
         <div class="space-y-3">
-          <label class="flex items-start gap-3 p-3 rounded-xl bg-dark-card/60 hover:bg-dark-card border border-transparent hover:border-dark-borderLight transition cursor-pointer">
-            <input type="checkbox" id="chk-4" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-brand-500 bg-dark-base border-dark-border focus:ring-0">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
+            <input type="checkbox" id="chk-4" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
             <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-semibold text-slate-200">4. Alasan di Balik Pencatatan Bundling:</span>
-              <p class="text-slate-400 text-xs">Pahami kenapa dia menggabung 2 orang sekaligus dalam 1 baris. Sampaikan bahwa sistem baru tetap memperbolehkan input bareng tanpa membuat dia repot dua kali ngetik.</p>
+              <span class="font-bold text-ink-heading">4. Konfirmasi Kebiasaan Input Bundling:</span>
+              <p class="text-ink-body text-xs leading-relaxed">Klarifikasi alasan pencatatan multi-nama (misal 2 anak didaftarkan sekaligus). Jelaskan bahwa sistem baru tetap mengizinkan input sekaligus tanpa memaksa klien mengetik ulang.</p>
             </div>
           </label>
 
-          <label class="flex items-start gap-3 p-3 rounded-xl bg-dark-card/60 hover:bg-dark-card border border-transparent hover:border-dark-borderLight transition cursor-pointer">
-            <input type="checkbox" id="chk-5" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-brand-500 bg-dark-base border-dark-border focus:ring-0">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
+            <input type="checkbox" id="chk-5" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
             <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-semibold text-slate-200">5. Penanganan Siswa Nunggak / Cicilan:</span>
-              <p class="text-slate-400 text-xs">Bagaimana dia menandai anak yang belum bayar atau bayar separuh? Butuh status simpel "Lunas" vs "Pending" agar ada daftar rekap siapa yang belum setor.</p>
+              <span class="font-bold text-ink-heading">5. Penanganan Siswa Nunggak / Piutang SPP:</span>
+              <p class="text-ink-body text-xs leading-relaxed">Bagaimana cara menandai pembayaran parsial atau janji bayar? Terapkan status biner sederhana: "Lunas" vs "Belum Lunas" agar daftar piutang terakumulasi otomatis.</p>
             </div>
           </label>
         </div>
       </div>
 
       <!-- BLOK 3 -->
-      <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-4">
-        <div class="flex items-center justify-between border-b border-dark-border/60 pb-3">
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono text-xs font-bold">Blok 3 (30:00 - 45:00)</span>
-            <h4 class="font-bold text-white text-sm sm:text-base">Kunci Laporan Akhir &amp; Minta 10 Baris Data Riil</h4>
+      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+        <div class="flex items-center justify-between border-b border-surface-border pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="px-2.5 py-0.5 rounded font-mono text-xs font-bold bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder">
+              Blok 3 (30:00 - 45:00)
+            </span>
+            <h4 class="font-bold text-ink-heading text-sm sm:text-base">Penguncian Output Rekap &amp; Pengambilan Data Riil</h4>
           </div>
-          <span class="text-xs text-slate-400 font-mono">15 Menit</span>
+          <span class="text-xs font-mono text-ink-muted">15 Menit</span>
         </div>
 
         <div class="space-y-3">
-          <label class="flex items-start gap-3 p-3 rounded-xl bg-dark-card/60 hover:bg-dark-card border border-transparent hover:border-dark-borderLight transition cursor-pointer">
-            <input type="checkbox" id="chk-6" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-brand-500 bg-dark-base border-dark-border focus:ring-0">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
+            <input type="checkbox" id="chk-6" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
             <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-semibold text-slate-200">6. Indikator Utama yang Dicari Owner:</span>
-              <p class="text-slate-400 text-xs">Setiap akhir bulan atau akhir pekan, apa 3 angka yang paling wajib dia tahu dalam 3 detik? (Total Kas Bersih, Total Pemasukan SPP, Total Tunggakan Piutang).</p>
+              <span class="font-bold text-ink-heading">6. Indikator Utama Evaluasi Bulanan:</span>
+              <p class="text-ink-body text-xs leading-relaxed">Tiga metrik wajib di dashboard: Total Kas Bersih, Total Pemasukan SPP, dan Akumulasi Tunggakan Siswa.</p>
             </div>
           </label>
 
-          <label class="flex items-start gap-3 p-3 rounded-xl bg-dark-card/60 hover:bg-dark-card border border-transparent hover:border-dark-borderLight transition cursor-pointer">
-            <input type="checkbox" id="chk-7" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-brand-500 bg-dark-base border-dark-border focus:ring-0">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl bg-surface-subtle hover:bg-slate-100/70 border border-surface-border transition cursor-pointer">
+            <input type="checkbox" id="chk-7" onchange="saveChecklist()" class="mt-1 w-4 h-4 rounded text-slate-900 border-surface-borderStrong focus:ring-0">
             <div class="text-xs sm:text-sm space-y-1">
-              <span class="font-semibold text-brand-400">7. [SYARAT MUTLAK] Minta 10 Baris Contoh Excel Terakhir:</span>
-              <p class="text-slate-400 text-xs">Wajib minta file/foto 10 baris transaksi nyata yang biasa dia catat. <em>Jangan tulis baris kode pertama sebelum megang 10 data ini!</em></p>
+              <span class="font-bold text-accent-emerald">7. [SYARAT MUTLAK] Minta 10 Baris Contoh Excel Terakhir:</span>
+              <p class="text-ink-body text-xs leading-relaxed">Wajib mendapatkan file/foto 10 baris transaksi nyata yang biasa dicatat sebelum memulai penulisan kode.</p>
             </div>
           </label>
         </div>
@@ -263,20 +292,27 @@
     <!-- TAB 2: SKRIP KOMUNIKASI (KATA-PER-KATA) -->
     <div id="tab-scripts" class="tab-content hidden space-y-6">
       <div>
-        <h3 class="text-lg font-bold text-white">Naskah Komunikasi Siap Pakai (Friendly &amp; Tegas)</h3>
-        <p class="text-xs text-slate-400">Tinggal klik tombol "Salin Teks" untuk dikirim via WhatsApp atau dibacakan saat obrolan.</p>
+        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Naskah Komunikasi Siap Pakai</h3>
+        <p class="text-xs text-ink-muted">Gunakan tombol salin untuk mengirim via WhatsApp atau dibacakan saat pertemuan.</p>
       </div>
 
       <!-- SCRIPT 1 -->
-      <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-3 shadow-sm">
         <div class="flex items-center justify-between">
-          <span class="px-2.5 py-1 rounded bg-brand-500/10 text-brand-400 font-mono text-xs font-bold">1. Cara Kunci Batasan Revisi Tanpa Tersinggung</span>
-          <button onclick="copyScript('script-1', this)" class="px-3 py-1.5 rounded-lg bg-dark-card hover:bg-dark-border text-xs text-slate-200 font-medium transition flex items-center gap-1.5 border border-dark-border">
-            <span>📋</span> <span>Salin Teks</span>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-slate-900"></span>
+            <span class="font-mono text-xs font-bold text-ink-heading uppercase tracking-wide">1. Kunci Batasan Revisi (Jaminan Tepat Waktu)</span>
+          </div>
+          <button onclick="copyScript('script-1', this)" class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-slate-200 border border-surface-border text-xs text-ink-heading font-medium transition flex items-center gap-1.5 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span>Salin Naskah</span>
           </button>
         </div>
-        <p class="text-xs text-slate-400">Gunakan saat menutup sesi briefing untuk mengunci ekspektasi jadwal 6 hari:</p>
-        <div id="script-1" class="bg-dark-card p-4 rounded-xl font-mono text-xs text-slate-300 leading-relaxed border border-dark-borderLight/60">
+        <p class="text-xs text-ink-muted">Sampaikan saat penutupan sesi interview untuk menetapkan ekspektasi:</p>
+        <div id="script-1" class="bg-surface-subtle p-4 rounded-xl font-mono text-xs text-ink-body leading-relaxed border border-surface-border">
 "Kang/Teh, belajar dari sistem yang kita bangun kemarin di tempat [Nama Klien 1], kemarin sempat ada waktu yang agak molor karena kita ubah-ubah alur di tengah jalan sebelum aplikasinya sempat diuji coba menyeluruh.
 
 Nah, khusus buat sanggar Akang/Teteh, kita pengen sistem ini beneran beres rapi dan bisa langsung dipakai operasional dalam 6 hari kerja.
@@ -290,15 +326,22 @@ Jadi di luar 2 sesi review ini, kita bakal fokus full coding & polishing biar ap
       </div>
 
       <!-- SCRIPT 2 -->
-      <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-3 shadow-sm">
         <div class="flex items-center justify-between">
-          <span class="px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 font-mono text-xs font-bold">2. Cara Handle Kebiasaan Input "Bundling"</span>
-          <button onclick="copyScript('script-2', this)" class="px-3 py-1.5 rounded-lg bg-dark-card hover:bg-dark-border text-xs text-slate-200 font-medium transition flex items-center gap-1.5 border border-dark-border">
-            <span>📋</span> <span>Salin Teks</span>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-accent-amber"></span>
+            <span class="font-mono text-xs font-bold text-ink-heading uppercase tracking-wide">2. Memfasilitasi Pola Input "Bundling"</span>
+          </div>
+          <button onclick="copyScript('script-2', this)" class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-slate-200 border border-surface-border text-xs text-ink-heading font-medium transition flex items-center gap-1.5 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span>Salin Naskah</span>
           </button>
         </div>
-        <p class="text-xs text-slate-400">Gunakan saat klien cerita dia suka gabung 2 anak dalam 1 catatan:</p>
-        <div id="script-2" class="bg-dark-card p-4 rounded-xl font-mono text-xs text-slate-300 leading-relaxed border border-dark-borderLight/60">
+        <p class="text-xs text-ink-muted">Sampaikan saat klien menjelaskan pencatatan gabungan dua siswa:</p>
+        <div id="script-2" class="bg-surface-subtle p-4 rounded-xl font-mono text-xs text-ink-body leading-relaxed border border-surface-border">
 "Paham banget Kang! Kebiasaan Akang gabung 2 anak dalam 1 baris di Excel itu masuk akal banget karena biar gak capek ngetik ulang dua kali dan tabelnya gak kepanjangan.
 
 Tenang aja, di aplikasi baru ini kebiasaan praktis Akang tetap kita fasilitasi! Nanti di formulirnya Akang bisa ketik nama anaknya sekaligus (misal: 'Rizky & Fajar'). 
@@ -308,15 +351,22 @@ Di tabel rekap harian Akang tetap muncul ringkas 1 baris kayak biasa. Tapi di si
       </div>
 
       <!-- SCRIPT 3 -->
-      <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+      <div class="bg-white border border-surface-border rounded-2xl p-5 sm:p-6 space-y-3 shadow-sm">
         <div class="flex items-center justify-between">
-          <span class="px-2.5 py-1 rounded bg-purple-500/10 text-purple-400 font-mono text-xs font-bold">3. Menolak Penambahan Fitur di Tengah Jalan (Paket Fase 2)</span>
-          <button onclick="copyScript('script-3', this)" class="px-3 py-1.5 rounded-lg bg-dark-card hover:bg-dark-border text-xs text-slate-200 font-medium transition flex items-center gap-1.5 border border-dark-border">
-            <span>📋</span> <span>Salin Teks</span>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-accent-rose"></span>
+            <span class="font-mono text-xs font-bold text-ink-heading uppercase tracking-wide">3. Menolak Penambahan Fitur di Tengah Jalan (Fase 2)</span>
+          </div>
+          <button onclick="copyScript('script-3', this)" class="px-3 py-1.5 rounded-lg bg-surface-subtle hover:bg-slate-200 border border-surface-border text-xs text-ink-heading font-medium transition flex items-center gap-1.5 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            <span>Salin Naskah</span>
           </button>
         </div>
-        <p class="text-xs text-slate-400">Gunakan jika di Hari ke-3 atau ke-4 klien tiba-tiba minta fitur baru di luar kesepakatan:</p>
-        <div id="script-3" class="bg-dark-card p-4 rounded-xl font-mono text-xs text-slate-300 leading-relaxed border border-dark-borderLight/60">
+        <p class="text-xs text-ink-muted">Gunakan jika di tengah pengerjaan muncul permintaan fitur baru di luar lingkup:</p>
+        <div id="script-3" class="bg-surface-subtle p-4 rounded-xl font-mono text-xs text-ink-body leading-relaxed border border-surface-border">
 "Wah idenya keren banget Kang, fitur [sebut fitur yang diminta, misal: kirim WhatsApp otomatis / login guru] itu memang bakal ngebantu banget ke depannya!
 
 Biar target launching 6 hari ini gak meleset dan sistem pembukuan utama sanggar ini jalan stabil dulu, usul saya fitur keren ini kita simpan jadi paket pengembangan Fase 2 ya Kang.
@@ -329,61 +379,65 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     <!-- TAB 3: REVISI VS FITUR BARU -->
     <div id="tab-scope" class="tab-content hidden space-y-6">
       <div>
-        <h3 class="text-lg font-bold text-white">Matriks Batasan: Apa yang Masuk Revisi vs Fitur Baru?</h3>
-        <p class="text-xs text-slate-400">Pegang panduan ini agar developer tidak over-servicing dan kelelahan merevisi hal yang bukan hak klien.</p>
+        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Matriks Ruang Lingkup: Hak Revisi vs Fitur Baru</h3>
+        <p class="text-xs text-ink-muted">Pemisahan tegas untuk mencegah over-servicing dan memastikan target 6 hari tercapai.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <!-- REVISI GRATIS -->
-        <div class="bg-dark-surface border border-emerald-500/30 rounded-2xl p-5 space-y-4">
+        <div class="bg-white border-2 border-emerald-500/40 rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
           <div class="flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">✓</span>
-            <h4 class="font-bold text-emerald-400 text-base">Termasuk Revisi (GRATIS dalam Paket)</h4>
+            <span class="w-5 h-5 rounded-full bg-emerald-100 text-accent-emerald flex items-center justify-center font-mono font-bold text-xs">
+              +
+            </span>
+            <h4 class="font-bold text-accent-emerald text-base tracking-tight">Kategori Revisi (Gratis / Dalam Paket)</h4>
           </div>
-          <p class="text-xs text-slate-400">Segala hal yang bertujuan memperbaiki alur yang sudah disepakati di awal agar nyaman dipakai:</p>
-          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-400 font-bold">•</span>
-              <span><strong>Ubah Label &amp; Kategori:</strong> Ganti nama kolom (misal: "Uang Masuk" jadi "Kas Masuk Les").</span>
+          <p class="text-xs text-ink-muted leading-relaxed">Penyesuaian terhadap alur yang telah disepakati pada Hari ke-1 agar nyaman dioperasikan:</p>
+          <ul class="space-y-3 text-xs sm:text-sm text-ink-body">
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-emerald font-bold">•</span>
+              <span><strong>Penyesuaian Label Kolom:</strong> Penggantian istilah (misal: "Iuran Siswa" menjadi "Kas Masuk SPP").</span>
             </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-400 font-bold">•</span>
-              <span><strong>Ergonomi &amp; Kenyamanan Klik:</strong> Membesarkan tombol input di layar HP biar gak salah pencet.</span>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-emerald font-bold">•</span>
+              <span><strong>Ergonomi Tampilan Mobile:</strong> Memperbesar tombol aksi pada layar smartphone agar mudah ditekan.</span>
             </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-400 font-bold">•</span>
-              <span><strong>Perbaikan Rumus / Bug:</strong> Rumus saldo akhir atau sisa piutang yang keliru hitung.</span>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-emerald font-bold">•</span>
+              <span><strong>Koreksi Perhitungan:</strong> Perbaikan formula saldo kas atau rekapitulasi piutang yang tidak sinkron.</span>
             </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-400 font-bold">•</span>
-              <span><strong>Penyempurnaan Tampilan Rekap:</strong> Urutan kolom laporan harian agar lebih enak dibaca saat evaluasi.</span>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-emerald font-bold">•</span>
+              <span><strong>Tata Letak Rekapitulasi:</strong> Penyesuaian urutan kolom pada tabel laporan agar lebih runtut.</span>
             </li>
           </ul>
         </div>
 
         <!-- FITUR BARU BERBAYAR -->
-        <div class="bg-dark-surface border border-amber-500/30 rounded-2xl p-5 space-y-4">
+        <div class="bg-white border-2 border-rose-500/30 rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
           <div class="flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">✕</span>
-            <h4 class="font-bold text-amber-400 text-base">Penambahan Fitur (Masuk Fase 2 / Berbayar)</h4>
+            <span class="w-5 h-5 rounded-full bg-rose-100 text-accent-rose flex items-center justify-center font-mono font-bold text-xs">
+              -
+            </span>
+            <h4 class="font-bold text-accent-rose text-base tracking-tight">Penambahan Fitur (Masuk Fase 2 / Berbayar)</h4>
           </div>
-          <p class="text-xs text-slate-400">Segala entitas, logika bisnis baru, atau integrasi pihak ketiga yang tidak ada di briefing Hari ke-1:</p>
-          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">•</span>
-              <span><strong>Integrasi WhatsApp Gateway:</strong> Kirim kuitansi PDF otomatis ke nomor WA ortu murid.</span>
+          <p class="text-xs text-ink-muted leading-relaxed">Kebutuhan logika baru atau integrasi pihak ketiga di luar kesepakatan awal:</p>
+          <ul class="space-y-3 text-xs sm:text-sm text-ink-body">
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-rose font-bold">•</span>
+              <span><strong>Integrasi WhatsApp Gateway:</strong> Pengiriman bukti tanda terima digital langsung ke nomor orang tua.</span>
             </li>
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">•</span>
-              <span><strong>Sistem Multi-User / Hak Akses:</strong> Bikin akun terpisah untuk pelatih tari vs admin kasir.</span>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-rose font-bold">•</span>
+              <span><strong>Sistem Akun Bertingkat (Role/Auth):</strong> Pembuatan portal terpisah antara instruktur dan kasir.</span>
             </li>
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">•</span>
-              <span><strong>Modul Baru di Luar Pembukuan:</strong> Absensi barcode anak les, jadwal ruangan latihan, atau stok sewa kostum.</span>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-rose font-bold">•</span>
+              <span><strong>Modul di Luar Kas:</strong> Presensi barcode, penjadwalan ruang latihan, atau inventaris sewa busana.</span>
             </li>
-            <li class="flex items-start gap-2">
-              <span class="text-amber-400 font-bold">•</span>
-              <span><strong>Perubahan Arsitektur Data:</strong> Minta ganti dari offline Local Storage ke Cloud Database sinkronisasi multi-device di tengah jalan.</span>
+            <li class="flex items-start gap-2.5">
+              <span class="font-mono text-accent-rose font-bold">•</span>
+              <span><strong>Perubahan Arsitektur:</strong> Migrasi dari LocalStorage offline ke database cloud multi-perangkat.</span>
             </li>
           </ul>
         </div>
@@ -393,62 +447,64 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     <!-- TAB 4: SOLUSI KASUS BUNDLING -->
     <div id="tab-bundling" class="tab-content hidden space-y-6">
       <div>
-        <h3 class="text-lg font-bold text-white">Solusi Teknis Desain: Menangani Kebiasaan Bundling</h3>
-        <p class="text-xs text-slate-400">Klien merasa input 1 baris untuk 2 anak itu efisien. Jangan didebat, tapi rancang formulirnya seperti ini:</p>
+        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Solusi Desain Input Bundling</h3>
+        <p class="text-xs text-ink-muted">Menjaga efisiensi input bagi pengguna tanpa merusak integritas agregasi data.</p>
       </div>
 
       <!-- INTERACTIVE SIMULATION -->
-      <div class="bg-dark-surface border border-dark-border rounded-2xl p-6 space-y-5">
-        <div class="flex items-center justify-between border-b border-dark-border pb-3">
-          <span class="text-xs font-mono font-bold text-brand-400 uppercase tracking-wider">💡 Mockup Form Input yang Direkomendasikan</span>
-          <span class="text-xs text-slate-400">Coba ketik di bawah</span>
+      <div class="bg-white border border-surface-border rounded-2xl p-6 space-y-5 shadow-sm">
+        <div class="flex items-center justify-between border-b border-surface-border pb-3">
+          <span class="text-xs font-mono font-bold text-ink-heading uppercase tracking-wider">Simulasi Antarmuka Form Input</span>
+          <span class="text-xs text-ink-muted font-mono">Coba ubah isian di bawah</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
           <div>
-            <label class="block text-slate-400 mb-1">Nama Siswa / Bundle:</label>
-            <input type="text" id="demo-name" value="Rizky &amp; Fajar (Kakak Beradik)" class="w-full bg-dark-card border border-dark-border rounded-lg p-2.5 text-white focus:outline-none focus:border-brand-500">
-            <span class="text-[10px] text-slate-400 mt-1 block">Bebas ketik multi-nama</span>
+            <label class="block text-ink-muted mb-1 font-semibold">Nama Siswa / Catatan Gabungan:</label>
+            <input type="text" id="demo-name" value="Rizky &amp; Fajar (Kakak Beradik)" class="w-full bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-ink-heading focus:outline-none focus:border-slate-900 transition">
+            <span class="text-[10px] text-ink-muted mt-1 block">Mendukung multi-nama dalam 1 kolom</span>
           </div>
 
           <div>
-            <label class="block text-slate-400 mb-1">Kelas Les &amp; Jml Anak:</label>
+            <label class="block text-ink-muted mb-1 font-semibold">Kategori Les &amp; Jumlah Siswa:</label>
             <div class="flex gap-2">
-              <select id="demo-class" class="bg-dark-card border border-dark-border rounded-lg p-2.5 text-white w-2/3">
+              <select id="demo-class" class="bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-ink-heading w-2/3 focus:outline-none focus:border-slate-900 transition">
                 <option>Les Vokal</option>
                 <option>Beatbox</option>
                 <option>Tari Tradisional</option>
               </select>
-              <input type="number" id="demo-count" value="2" min="1" class="w-1/3 bg-dark-card border border-dark-border rounded-lg p-2.5 text-white text-center">
+              <input type="number" id="demo-count" value="2" min="1" class="w-1/3 bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-ink-heading text-center font-bold focus:outline-none focus:border-slate-900 transition">
             </div>
-            <span class="text-[10px] text-slate-400 mt-1 block">Jumlah kepala untuk agregasi</span>
+            <span class="text-[10px] text-ink-muted mt-1 block">Variabel kepala untuk hitung honor instruktur</span>
           </div>
 
           <div>
-            <label class="block text-slate-400 mb-1">Nominal Diterima (Rp):</label>
-            <input type="number" id="demo-amount" value="300000" class="w-full bg-dark-card border border-dark-border rounded-lg p-2.5 text-emerald-400 font-bold focus:outline-none focus:border-brand-500">
-            <span class="text-[10px] text-slate-400 mt-1 block">Total kas masuk kasir</span>
+            <label class="block text-ink-muted mb-1 font-semibold">Total Pembayaran (Rp):</label>
+            <input type="number" id="demo-amount" value="300000" class="w-full bg-surface-subtle border border-surface-borderStrong rounded-lg p-2.5 text-accent-emerald font-bold focus:outline-none focus:border-slate-900 transition">
+            <span class="text-[10px] text-ink-muted mt-1 block">Kas masuk yang diakumulasikan</span>
           </div>
         </div>
 
         <!-- RESULT PREVIEW -->
-        <div class="p-4 rounded-xl bg-dark-base border border-dark-border space-y-2 text-xs">
-          <div class="text-slate-400 font-mono text-[11px] flex justify-between">
-            <span>Tampilan Rekap Klien (Tetap 1 Baris Sesuai Selera Klien):</span>
-            <span class="text-brand-400 font-semibold">Tersimpan di LocalStorage</span>
+        <div class="p-4 rounded-xl bg-surface-subtle border border-surface-border space-y-2 text-xs">
+          <div class="text-ink-muted font-mono text-[11px] flex justify-between">
+            <span>Tampilan Rekap Pengguna (Tetap 1 Baris):</span>
+            <span class="text-accent-emerald font-semibold">Penyimpanan: LocalStorage</span>
           </div>
-          <div class="p-3 rounded-lg bg-dark-card border border-dark-border flex flex-wrap items-center justify-between gap-2 font-mono">
+          <div class="p-3.5 rounded-lg bg-white border border-surface-border flex flex-wrap items-center justify-between gap-2 font-mono shadow-sm">
             <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[11px]">Vokal (2 Org)</span>
-              <span class="text-white font-semibold" id="preview-row-name">Rizky &amp; Fajar (Kakak Beradik)</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 text-ink-heading text-[11px] font-semibold border border-slate-200">
+                Vokal (2 Org)
+              </span>
+              <span class="text-ink-heading font-bold" id="preview-row-name">Rizky &amp; Fajar (Kakak Beradik)</span>
             </div>
             <div class="flex items-center gap-4">
-              <span class="text-emerald-400 font-bold" id="preview-row-amount">Rp 300.000</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px]">LUNAS</span>
+              <span class="text-accent-emerald font-bold text-sm" id="preview-row-amount">Rp 300.000</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder text-[10px] font-bold">LUNAS</span>
             </div>
           </div>
-          <p class="text-[11px] text-slate-400 pt-1">
-            ✨ <em>Dampaknya:</em> Klien senang karena tabelnya ringkas dan gak ngetik berulang kali, developer juga tenang karena variabel <code>jumlah_siswa = 2</code> tercatat rapi saat bikin rekap jumlah siswa per kelas les.
+          <p class="text-[11px] text-ink-body pt-1 leading-relaxed">
+            <strong>Keunggulan Implementasi:</strong> Klien tidak perlu mengetik berulang kali untuk transaksi serentak, sementara sistem tetap menyimpan metadata kuantitas siswa untuk akurasi pelaporan operasional sanggar.
           </p>
         </div>
       </div>
@@ -457,68 +513,68 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     <!-- TAB 5: SPRINT ROADMAP 6 HARI -->
     <div id="tab-timeline" class="tab-content hidden space-y-6">
       <div>
-        <h3 class="text-lg font-bold text-white">Roadmap Sprint 6 Hari (Nilai Rp 1.500.000)</h3>
-        <p class="text-xs text-slate-400">Pembagian tugas harian agar ada waktu khusus untuk poles estetika dan mengamankan kepuasan klien.</p>
+        <h3 class="text-lg font-bold text-ink-heading tracking-tight">Roadmap Sprint 6 Hari (Nilai Proyek: Rp 1.500.000)</h3>
+        <p class="text-xs text-ink-muted">Pembagian tahapan kerja dengan dua titik evaluasi formal.</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <!-- HARI 1 -->
-        <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+        <div class="bg-white border border-surface-border rounded-2xl p-5 space-y-3 shadow-sm">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-brand-400">HARI KE-1</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300">Data Lock</span>
+            <span class="text-xs font-mono font-bold text-ink-heading">HARI KE-1</span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-medium bg-slate-100 text-ink-body border border-slate-200">Data Lock</span>
           </div>
-          <h4 class="font-bold text-white text-sm">Interview 45 Menit &amp; Contoh Data</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Lakukan interview 3 blok. Dapatkan 10 baris data Excel riil sanggar. Kunci batasan lewat WhatsApp bahwa alur pengerjaan memiliki 2x review resmi.
+          <h4 class="font-bold text-ink-heading text-sm">Wawancara 45m &amp; Penyerahan 10 Baris Data</h4>
+          <p class="text-xs text-ink-body leading-relaxed">
+            Eksekusi interview 3 blok. Dapatkan 10 baris data riil Excel sanggar. Konfirmasi via WhatsApp mengenai jadwal dua kali sesi review resmi.
           </p>
         </div>
 
         <!-- HARI 2 & 3 -->
-        <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+        <div class="bg-white border border-surface-border rounded-2xl p-5 space-y-3 shadow-sm">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-brand-400">HARI KE-2 &amp; 3</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/10 text-blue-400">Core Build</span>
+            <span class="text-xs font-mono font-bold text-ink-heading">HARI KE-2 &amp; 3</span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-medium bg-slate-100 text-ink-body border border-slate-200">Core Build</span>
           </div>
-          <h4 class="font-bold text-white text-sm">Bangun Fondasi Web App &amp; LocalStorage</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Buat form input pendaftaran (dukung bundling), form kas keluar operasional, penyimpanan LocalStorage anti-hilang, dan tabel rekap kas harian.
+          <h4 class="font-bold text-ink-heading text-sm">Pengembangan Inti Web App &amp; LocalStorage</h4>
+          <p class="text-xs text-ink-body leading-relaxed">
+            Membangun form transaksi pendaftaran (dukungan bundling), form beban operasional, persistensi LocalStorage, dan tabel rekapitulasi harian.
           </p>
         </div>
 
         <!-- HARI 4 -->
-        <div class="bg-dark-surface border border-amber-500/40 rounded-2xl p-5 space-y-3">
+        <div class="bg-white border-2 border-amber-500/50 rounded-2xl p-5 space-y-3 shadow-sm">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-amber-400">HARI KE-4</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Review Gate 1</span>
+            <span class="text-xs font-mono font-bold text-accent-amber">HARI KE-4</span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-amber-50 text-accent-amber border border-accent-amberBorder">Review 1</span>
           </div>
-          <h4 class="font-bold text-white text-sm">Sesi Review 1: Uji Kenyamanan Input</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Kirimkan link uji coba ke klien. Minta owner mencoba menginput 3 data riil di HP-nya. Catat revisi seputar kenyamanan jempol &amp; ukuran teks.
+          <h4 class="font-bold text-ink-heading text-sm">Evaluasi Pertama: Uji Pengalaman Input</h4>
+          <p class="text-xs text-ink-body leading-relaxed">
+            Kirimkan tautan pengujian kepada klien. Minta pemilik mencoba input 3 transaksi simulasi di HP. Catat perbaikan terkait tata letak tombol dan kejelasan label.
           </p>
         </div>
 
         <!-- HARI 5 -->
-        <div class="bg-dark-surface border border-dark-border rounded-2xl p-5 space-y-3">
+        <div class="bg-white border border-surface-border rounded-2xl p-5 space-y-3 shadow-sm">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-brand-400">HARI KE-5</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400">Polishing</span>
+            <span class="text-xs font-mono font-bold text-ink-heading">HARI KE-5</span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-medium bg-slate-100 text-ink-body border border-slate-200">Polishing</span>
           </div>
-          <h4 class="font-bold text-white text-sm">Eksekusi Revisi &amp; Polish UI/UX</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Bereskan masukan dari Review 1. Tambahkan fitur ekspor CSV/Excel cadangan, rapikan tema warna sanggar seni, dan pastikan loading instan.
+          <h4 class="font-bold text-ink-heading text-sm">Penyelesaian Revisi &amp; Penyempurnaan UI</h4>
+          <p class="text-xs text-ink-body leading-relaxed">
+            Mengerjakan poin perbaikan dari Review 1. Menambahkan fitur ekspor CSV/Excel sebagai cadangan, merapikan palet visual sanggar, dan memastikan performa responsif.
           </p>
         </div>
 
         <!-- HARI 6 -->
-        <div class="bg-dark-surface border border-emerald-500/40 rounded-2xl p-5 space-y-3 sm:col-span-2">
+        <div class="bg-white border-2 border-emerald-500/50 rounded-2xl p-5 space-y-3 sm:col-span-2 shadow-sm">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-emerald-400">HARI KE-6</span>
-            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Review Gate 2 &amp; Handover</span>
+            <span class="text-xs font-mono font-bold text-accent-emerald">HARI KE-6</span>
+            <span class="text-[10px] px-2 py-0.5 rounded font-mono font-semibold bg-emerald-50 text-accent-emerald border border-accent-emeraldBorder">Review 2 &amp; Handover</span>
           </div>
-          <h4 class="font-bold text-white text-sm">Final Check, Video Panduan 2 Menit, &amp; Panen Referral</h4>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Cek final bersama klien. Berikan video screen record 2 menit cara pakai di HP. Klien puas dan tidak merasa diatur kaku &rarr; minta izin untuk jadikan studi kasus dan minta referensi sanggar seni / bisnis lainnya di Sukabumi!
+          <h4 class="font-bold text-ink-heading text-sm">Pemeriksaan Final, Video Panduan 2 Menit, &amp; Permintaan Referensi</h4>
+          <p class="text-xs text-ink-body leading-relaxed">
+            Verifikasi akhir bersama pemilik. Lampirkan rekaman layar tutorial 2 menit penggunaan di ponsel. Setelah kepuasan terkonfirmasi, minta izin untuk mendokumentasikan proyek sebagai studi kasus portofolio dan jajaki referensi jejaring sanggar seni lainnya di Sukabumi.
           </p>
         </div>
       </div>
@@ -527,8 +583,9 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
   </main>
 
   <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="fixed bottom-6 right-6 bg-brand-500 text-dark-base font-bold text-xs px-4 py-2.5 rounded-xl shadow-xl transform translate-y-20 opacity-0 transition duration-300 pointer-events-none flex items-center gap-2 z-50">
-    <span>✓</span> <span>Teks naskah berhasil disalin ke clipboard!</span>
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white font-mono text-xs px-4 py-2.5 rounded-xl shadow-xl transform translate-y-20 opacity-0 transition duration-300 pointer-events-none flex items-center gap-2 z-50">
+    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+    <span id="toast-text">Teks naskah berhasil disalin ke clipboard.</span>
   </div>
 
   <!-- INTERACTIVE JS LOGIC -->
@@ -536,7 +593,7 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     // Tab Switching
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active', 'text-brand-400'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
       
       const target = document.getElementById(tabId);
       if (target) target.classList.remove('hidden');
@@ -549,16 +606,21 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     function copyScript(id, btn) {
       const text = document.getElementById(id).innerText;
       navigator.clipboard.writeText(text).then(() => {
-        showToast('Naskah berhasil disalin! Tinggal kirim ke WA.');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<span>✓</span> <span>Tersalin!</span>';
-        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+        showToast('Naskah berhasil disalin ke clipboard.');
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = `
+          <svg class="w-3.5 h-3.5 text-accent-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span class="text-accent-emerald font-semibold">Tersalin</span>
+        `;
+        setTimeout(() => { btn.innerHTML = originalContent; }, 2000);
       });
     }
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
-      toast.querySelector('span:last-child').textContent = msg;
+      document.getElementById('toast-text').textContent = msg;
       toast.classList.remove('translate-y-20', 'opacity-0');
       setTimeout(() => {
         toast.classList.add('translate-y-20', 'opacity-0');
@@ -566,7 +628,7 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     }
 
     // Timer Logic (45 Mins Countdown)
-    let timeLeft = 45 * 60; // 45 minutes
+    let timeLeft = 45 * 60;
     let timerInterval = null;
 
     function updateTimerDisplay() {
@@ -582,12 +644,12 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
         clearInterval(timerInterval);
         timerInterval = null;
         btn.textContent = 'Mulai';
-        btn.classList.remove('bg-amber-500/20', 'text-amber-300');
-        btn.classList.add('bg-brand-500/20', 'text-brand-300');
+        btn.classList.remove('bg-amber-50', 'text-amber-800');
+        btn.classList.add('bg-white', 'text-ink-heading');
       } else {
         btn.textContent = 'Jeda';
-        btn.classList.remove('bg-brand-500/20', 'text-brand-300');
-        btn.classList.add('bg-amber-500/20', 'text-amber-300');
+        btn.classList.remove('bg-white', 'text-ink-heading');
+        btn.classList.add('bg-amber-50', 'text-amber-800');
         timerInterval = setInterval(() => {
           if (timeLeft > 0) {
             timeLeft--;
@@ -596,7 +658,7 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
             clearInterval(timerInterval);
             timerInterval = null;
             btn.textContent = 'Selesai';
-            alert('Waktu interview 45 menit sudah selesai!');
+            alert('Waktu wawancara 45 menit telah selesai.');
           }
         }, 1000);
       }
@@ -609,8 +671,8 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
       updateTimerDisplay();
       const btn = document.getElementById('timerToggleBtn');
       btn.textContent = 'Mulai';
-      btn.classList.remove('bg-amber-500/20', 'text-amber-300');
-      btn.classList.add('bg-brand-500/20', 'text-brand-300');
+      btn.classList.remove('bg-amber-50', 'text-amber-800');
+      btn.classList.add('bg-white', 'text-ink-heading');
     }
 
     // Persistent Checklist (LocalStorage)
@@ -620,11 +682,11 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
         const el = document.getElementById(`chk-${i}`);
         if (el) checks[`chk-${i}`] = el.checked;
       }
-      localStorage.setItem('dev_sop_checklist', JSON.stringify(checks));
+      localStorage.setItem('dev_sop_checklist_light', JSON.stringify(checks));
     }
 
     function loadChecklist() {
-      const saved = localStorage.getItem('dev_sop_checklist');
+      const saved = localStorage.getItem('dev_sop_checklist_light');
       if (saved) {
         try {
           const checks = JSON.parse(saved);
@@ -637,12 +699,12 @@ Setelah sistem utama ini beres dan dipakai operasional seminggu-dua minggu, kita
     }
 
     function resetChecklist() {
-      if (confirm('Reset semua centang checklist interview?')) {
+      if (confirm('Reset centang daftar wawancara?')) {
         for (let i = 1; i <= 7; i++) {
           const el = document.getElementById(`chk-${i}`);
           if (el) el.checked = false;
         }
-        localStorage.removeItem('dev_sop_checklist');
+        localStorage.removeItem('dev_sop_checklist_light');
       }
     }
 
